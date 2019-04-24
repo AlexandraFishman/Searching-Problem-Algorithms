@@ -44,7 +44,7 @@ public class InputFile {
 		}
 		
 		Node n = new Node(this.board.clone());
-		n.oneMoveLeft();
+		n.singleMoveLeft();
 		System.out.println("\n\n\n\n Original board:");
 		System.out.println(this.toString());
 

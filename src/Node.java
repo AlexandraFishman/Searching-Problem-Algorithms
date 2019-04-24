@@ -8,9 +8,9 @@ public class Node {
 	Cell empty1;
 	Cell empty2;
 	int movementCost;
-	
+
 	public Node(){
-		
+
 	}
 
 	public Node(Integer [][] board){
@@ -53,25 +53,16 @@ public class Node {
 	}
 
 	//returns node by one left  movement
-	public ArrayList<Node> oneMoveLeft(){
+	public ArrayList<Node> singleMoveLeft(){
 		ArrayList<Node> result = new ArrayList<>();
-		if(this.empty1.j+1  < this.stage.length){
-			if(this.stage[this.empty1.i][this.empty1.j+1] != null){
-				Node currentMove = new Node();
-				currentMove.stage = Utils.deepCopy(this.stage);
-				int i = this.empty1.i;
-				int j =this.empty1.j;
-				//making move and updating empty cell
-				int tmp = currentMove.stage[i][j+1];
-				currentMove.stage[i][j] = tmp;
-				currentMove.stage[i][j+1] = null;
 
-				//updating cost
-				currentMove.movementCost +=5;
-				//
-				result.add(currentMove);
-			}
-		}
+		Node a = shiftSingleTile(this.empty1);
+		Node b = shiftSingleTile(this.empty2);
+
+		if(a!=null) result.add(a);
+
+		if(b!=null) result.add(b);
+
 		String msg = "";
 		for (int i = 0; i < result.size(); i++) {
 			msg += result.get(i).toString() +"    \n "+i;
@@ -80,15 +71,26 @@ public class Node {
 		return  result;
 	}
 
-//	public Integer[][] deepCopy(Integer [][] orig){
-//		Integer[][] copy = new Integer[orig.length][orig[0].length];
-//		for(int i=0; i<copy.length; i++){
-//			for(int j=0; j<copy[0].length; j++){
-//				copy[i][j] = orig[i][j];
-//			}
-//		}
-//		return copy;
-//	}
+	private Node shiftSingleTile(Cell empty){
+		if(empty.j+1  <= this.stage.length){
+			if(this.stage[empty.i][empty.j+1] != null){
+				Node currentMove = new Node();
+				currentMove.stage = Utils.deepCopy(this.stage);
+				int i = empty.i;
+				int j = empty.j;
+				//making move and updating empty cell
+				int tmp = currentMove.stage[i][j+1];
+				currentMove.stage[i][j] = tmp;
+				currentMove.stage[i][j+1] = null;
+
+				//updating cost
+				currentMove.movementCost +=5;
+				//
+				return currentMove;
+			}
+		}
+		return null;
+	} 
 
 	@Override
 	public String toString(){
