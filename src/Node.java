@@ -65,7 +65,65 @@ public class Node {
 			if(b!=null) result.add(b);
 		}
 
+//		String msg = "";
+//		for (int i = 0; i < result.size(); i++) {
+//			msg += result.get(i).toString() +"    \n "+i;
+//		}
+//		System.out.println(msg);
+		return  result;
+	}
 
+	public ArrayList<Node> singleMoveRight(){
+		ArrayList<Node> result = new ArrayList<>();
+
+		if(this.empty1.j-1  <= this.stage.length){
+			Node a = shiftSingleTile(0,-1,this.empty1);
+			if(a!=null) result.add(a);
+		}
+		if(this.empty2.j-1  <= this.stage.length){
+			Node b = shiftSingleTile(0,-1,this.empty2);
+			if(b!=null) result.add(b);
+		}
+
+//		String msg = "";
+//		for (int i = 0; i < result.size(); i++) {
+//			msg += result.get(i).toString() +"    \n "+i;
+//		}
+//		System.out.println(msg);
+		return  result;
+	}
+
+	public ArrayList<Node> singleMoveDown(){
+		ArrayList<Node> result = new ArrayList<>();
+
+		if(this.empty1.i-1  >= 0){
+			Node a = shiftSingleTile(-1,0,this.empty1);
+			if(a!=null) result.add(a);
+		}
+		if(this.empty2.i-1  >= 0){
+			Node b = shiftSingleTile(-1,0,this.empty2);
+			if(b!=null) result.add(b);
+		}
+
+//		String msg = "";
+//		for (int i = 0; i < result.size(); i++) {
+//			msg += result.get(i).toString() +"    \n "+i;
+//		}
+//		System.out.println(msg);
+		return  result;
+	}
+	
+	public ArrayList<Node> singleMoveUp(){
+		ArrayList<Node> result = new ArrayList<>();
+
+		if(this.empty1.i+1  <= this.stage[0].length){
+			Node a = shiftSingleTile(1,0,this.empty1);
+			if(a!=null) result.add(a);
+		}
+		if(this.empty2.i+1  <= this.stage[0].length){
+			Node b = shiftSingleTile(1,0,this.empty2);
+			if(b!=null) result.add(b);
+		}
 
 		String msg = "";
 		for (int i = 0; i < result.size(); i++) {
@@ -74,7 +132,7 @@ public class Node {
 		System.out.println(msg);
 		return  result;
 	}
-
+	
 	private Node shiftSingleTile(int directionI, int directionJ, Cell empty){
 		if(this.stage[empty.i+directionI][empty.j+directionJ] != null){
 			Node currentMove = new Node();
@@ -82,8 +140,8 @@ public class Node {
 			int i = empty.i;
 			int j = empty.j;
 			//making move and updating empty cell
-			int tmp = currentMove.stage[i][j+directionJ];
-			currentMove.stage[i+directionI][j] = tmp;
+			int tmp = currentMove.stage[i+directionI][j+directionJ];
+			currentMove.stage[i][j] = tmp;
 			currentMove.stage[i+directionI][j+directionJ] = null;
 
 			//updating cost

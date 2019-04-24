@@ -45,6 +45,9 @@ public class InputFile {
 		
 		Node n = new Node(this.board.clone());
 		n.singleMoveLeft();
+		n.singleMoveRight();
+		n.singleMoveDown();
+		n.singleMoveUp();
 		System.out.println("\n\n\n\n Original board:");
 		System.out.println(this.toString());
 
