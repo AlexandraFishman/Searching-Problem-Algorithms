@@ -31,7 +31,7 @@ public class BFS {
 		openListQueue.add(startingBoard);
 //		while(!openList.isEmpty()){
 //			Node n = openList.remove(key)
-		}
+//		}
 	}
 
 

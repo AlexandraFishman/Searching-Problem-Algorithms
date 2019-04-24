@@ -31,18 +31,21 @@ public class InputFile {
 					String [] items = line.split(",");
 					for(int j=0; j<columns; j++){           			
 						if(!items[j].equals("_")){
-							board[i][j] = Integer.parseInt(items[j]);
+							this.board[i][j] = Integer.parseInt(items[j]);
 						}
-						System.out.print(board[i][j] + " ");
 					}
-					System.out.println("");
 				}
 			}
+			
+			
 
 		} catch (IOException e) {
 			System.err.format("IOException: %s%n", e);
 		}
-
+		
+		Node n = new Node(this.board.clone());
+		n.oneMoveLeft();
+		System.out.println("\n\n\n\n Original board:");
 		System.out.println(this.toString());
 
 	}
@@ -59,6 +62,5 @@ public class InputFile {
 			msg += "\n";
 		}
 		return  msg;
-
 	}
 }
