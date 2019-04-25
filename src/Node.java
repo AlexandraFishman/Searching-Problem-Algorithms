@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 public class Node {
 	Integer [][] stage;
@@ -10,7 +9,7 @@ public class Node {
 	int movementCost;
 
 	public Node(){
-
+		this.move ="";
 	}
 
 	public Node(Integer [][] board){
@@ -133,6 +132,27 @@ public class Node {
 		return  result;
 	}
 
+	public ArrayList<Node> doubleMoveLeft(){
+		ArrayList<Node> result = new ArrayList<>();
+		
+		if((this.empty1.i+1  <= this.stage[0].length) &&(this.empty2.i+1  <= this.stage[0].length)){
+			Node a = shiftDoubleTile(1, 0, this.empty1, this.empty2);
+			if(a!=null) result.add(a);
+		}
+//		if(this.empty2.i+1  <= this.stage[0].length){
+//			Node b = shiftSingleTile(1,0,this.empty2,this.empty1);
+//			if(b!=null) result.add(b);
+//		}
+
+		String msg = "";
+		for (int i = 0; i < result.size(); i++) {
+			msg += result.get(i).toString() +"    \n "; //+i
+		}
+		System.out.println(msg);
+		
+		return result;
+	}
+	
 	private Node shiftSingleTile(int directionI, int directionJ, Cell emptyToMove, Cell otherEmpty){
 		if(this.stage[emptyToMove.i+directionI][emptyToMove.j+directionJ] != null){
 			Node currentMove = new Node();
@@ -165,6 +185,56 @@ public class Node {
 		return null;
 	} 
 
+	private Node shiftDoubleTile(int directionI, int directionJ, Cell empty1ToMove, Cell empty2ToMove){
+		if((this.stage[empty1ToMove.i+directionI][empty1ToMove.j+directionJ] != null) &&
+				this.stage[empty2ToMove.i+directionI][empty2ToMove.j+directionJ] != null){
+			Node currentMove = new Node();
+			currentMove.stage = Utils.deepCopy(this.stage);
+			//first empty cell move
+			int i = empty1ToMove.i;
+			int j = empty1ToMove.j;
+			//making move and updating empty1 cell
+			int tmp = currentMove.stage[i+directionI][j+directionJ];
+			currentMove.stage[i][j] = tmp;
+			currentMove.stage[i+directionI][j+directionJ] = null;
+
+			//updating cost
+			currentMove.movementCost +=6;
+
+			//updating empty
+			currentMove.empty1 = new Cell();
+			currentMove.empty1.i = i+directionI;
+			currentMove.empty1.j = j+directionJ;
+
+			//updating father ONLY ONCE on empty1 cell update
+			currentMove.father = this;
+
+			currentMove.move +="-" +pathString(directionI, directionJ, tmp);
+			
+			//second empty cell move
+			int k = empty2ToMove.i;
+			int l = empty2ToMove.j;
+			//making move and updating empty1 cell
+			tmp = currentMove.stage[k+directionI][l+directionJ];
+			currentMove.stage[k][l] = tmp;
+			currentMove.stage[k+directionI][l+directionJ] = null;
+
+			//updating empty
+//			currentMove.empty1 = new Cell();
+//			currentMove.empty1.i = k+directionI;
+//			currentMove.empty1.j = l+directionJ;
+
+			currentMove.empty2 = new Cell();
+			currentMove.empty2.i = k+directionI;
+			currentMove.empty2.j = l+directionJ;
+			
+			currentMove.move += "-"+pathString(directionI, directionJ, tmp);
+			
+			return currentMove;
+		}
+		return null;
+	}
+	
 	private String pathString(int directionI, int directionJ, Integer value) {
 		String result = value.toString();
 		if(directionI == 1){
