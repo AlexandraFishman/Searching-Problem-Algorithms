@@ -41,38 +41,51 @@ public class Node {
 
 	public ArrayList<Node> generateMovement(){
 		ArrayList<Node> possibleMoves = new ArrayList<Node>();
-		
+		ArrayList<Node> currentMove = new ArrayList<Node>();
+
 		//double moves
-		if(this.doubleMoveLeft() != null)
-			possibleMoves.addAll(this.doubleMoveLeft());
-		else if(this.doubleMoveUp() != null)
-			possibleMoves.addAll(this.doubleMoveUp());
-		else if(this.doubleMoveRight() != null)
-			possibleMoves.addAll(this.doubleMoveRight());
-		else if(this.doubleMoveDown() != null)
-			possibleMoves.addAll(this.doubleMoveDown());
-		
+		currentMove = this.doubleMoveLeft();
+		if(!currentMove.isEmpty())
+			possibleMoves.addAll(currentMove);
+		currentMove = this.doubleMoveUp();
+		if(!currentMove.isEmpty())
+			possibleMoves.addAll(currentMove);
+		currentMove = this.doubleMoveRight();
+		if(!currentMove.isEmpty())
+			possibleMoves.addAll(currentMove);
+		currentMove = this.doubleMoveDown();
+		if(!currentMove.isEmpty())
+			possibleMoves.addAll(currentMove);
+
 		//single moves for first  empty cell
-		else if(this.singleMoveLeft(this.empty1, this.empty2) != null)
-			possibleMoves.addAll(this.singleMoveLeft(this.empty1, this.empty2));
-		else if(this.singleMoveUp(this.empty1, this.empty2) != null)
-			possibleMoves.addAll(this.singleMoveUp(this.empty1, this.empty2));
-		else if(this.singleMoveRight(this.empty1, this.empty2) != null)
-			possibleMoves.addAll(this.singleMoveRight(this.empty1, this.empty2));
-		else if(this.singleMoveDown(this.empty1, this.empty2) != null)
-			possibleMoves.addAll(this.singleMoveDown(this.empty1, this.empty2));
-		
+		currentMove = this.singleMoveLeft(this.empty1, this.empty2);
+		if(!currentMove.isEmpty())
+			possibleMoves.addAll(currentMove);
+		currentMove = this.singleMoveUp(this.empty1, this.empty2);
+		if(!currentMove.isEmpty())
+			possibleMoves.addAll(currentMove);
+		currentMove = this.singleMoveRight(this.empty1, this.empty2);
+		if(!currentMove.isEmpty())
+			possibleMoves.addAll(currentMove);
+		currentMove = this.singleMoveDown(this.empty1, this.empty2);
+		if(!currentMove.isEmpty())
+			possibleMoves.addAll(currentMove);
+
 		//single moves for second  empty cell
-				else if(this.singleMoveLeft(this.empty2, this.empty1) != null)
-					possibleMoves.addAll(this.singleMoveLeft(this.empty2, this.empty1));
-				else if(this.singleMoveUp(this.empty2, this.empty1) != null)
-					possibleMoves.addAll(this.singleMoveUp(this.empty2, this.empty1));
-				else if(this.singleMoveRight(this.empty2, this.empty1) != null)
-					possibleMoves.addAll(this.singleMoveRight(this.empty2, this.empty1));
-				else if(this.singleMoveDown(this.empty2, this.empty1) != null)
-					possibleMoves.addAll(this.singleMoveDown(this.empty2, this.empty1));
-				
-		return  null;
+		currentMove = this.singleMoveLeft(this.empty2, this.empty1);
+		if(!currentMove.isEmpty())
+			possibleMoves.addAll(currentMove);
+		currentMove = this.singleMoveUp(this.empty2, this.empty1);
+		if(!currentMove.isEmpty())
+			possibleMoves.addAll(currentMove);
+		currentMove = this.singleMoveRight(this.empty2, this.empty1);
+		if(!currentMove.isEmpty())
+			possibleMoves.addAll(currentMove);
+		currentMove = this.singleMoveDown(this.empty2, this.empty1);
+		if(!currentMove.isEmpty())
+			possibleMoves.addAll(currentMove);
+
+		return  possibleMoves;
 	}
 
 	//returns node by one left  movement
@@ -83,12 +96,12 @@ public class Node {
 			Node a = shiftSingleTile(0,1,empty1,empty2);
 			if(a!=null) result.add(a);
 		}
-		
-		//		String msg = "";
-		//		for (int i = 0; i < result.size(); i++) {
-		//			msg += result.get(i).toString() +"    \n "+i;
-		//		}
-		//		System.out.println(msg);
+
+		String msg = "singleLeft:\n";
+		for (int i = 0; i < result.size(); i++) {
+			msg += result.get(i).toString() +"    \n "+i;
+		}
+		System.out.println(msg);
 		return  result;
 	}
 
@@ -100,11 +113,11 @@ public class Node {
 			if(a!=null) result.add(a);
 		}
 
-		//		String msg = "";
-		//		for (int i = 0; i < result.size(); i++) {
-		//			msg += result.get(i).toString() +"    \n "+i;
-		//		}
-		//		System.out.println(msg);
+		String msg = "\nSingle right:\n";
+		for (int i = 0; i < result.size(); i++) {
+			msg += result.get(i).toString() +"    \n "+i;
+		}
+		System.out.println(msg);
 		return  result;
 	}
 
@@ -116,11 +129,11 @@ public class Node {
 			if(a!=null) result.add(a);
 		}
 
-		//		String msg = "";
-		//		for (int i = 0; i < result.size(); i++) {
-		//			msg += result.get(i).toString() +"    \n "+i;
-		//		}
-		//		System.out.println(msg);
+		String msg = "\nSingle down:\n";
+		for (int i = 0; i < result.size(); i++) {
+			msg += result.get(i).toString() +"    \n "+i;
+		}
+		System.out.println(msg);
 		return  result;
 	}
 
@@ -131,45 +144,45 @@ public class Node {
 			Node a = shiftSingleTile(1,0,empty1,empty2);
 			if(a!=null) result.add(a);
 		}
-		
-//		String msg = "";
-//		for (int i = 0; i < result.size(); i++) {
-//			msg += result.get(i).toString() +"    \n "; //+i
-//		}
-//		System.out.println(msg);
+
+		String msg = "\nSingle up:\n";
+		for (int i = 0; i < result.size(); i++) {
+			msg += result.get(i).toString() +"    \n "; //+i
+		}
+		System.out.println(msg);
 		return  result;
 	}
 
 	private ArrayList<Node> doubleMoveLeft(){
 		ArrayList<Node> result = new ArrayList<>();
-		
+
 		if((this.empty1.i+1  < this.stage.length) && (this.empty2.i+1  < this.stage.length) && this.sameColumnOrRow()){
 			Node a = shiftDoubleTile(1, 0, this.empty1, this.empty2);
 			if(a!=null) result.add(a);
 		}
 
-//		String msg = "";
-//		for (int i = 0; i < result.size(); i++) {
-//			msg += result.get(i).toString() +"    \n "; //+i
-//		}
-//		System.out.println(msg);
-		
+		String msg = "\nDouble Left:\n";
+		for (int i = 0; i < result.size(); i++) {
+			msg += result.get(i).toString() +"    \n "; //+i
+		}
+		System.out.println(msg);
+
 		return result;
 	}
-	
+
 	private ArrayList<Node> doubleMoveRight(){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if((this.empty1.j-1  < this.stage[0].length) && (this.empty2.j-1  < this.stage[0].length) && this.sameColumnOrRow()){
+		if((this.empty1.j-1  >= 0) && (this.empty2.j-1 >= 0) && this.sameColumnOrRow()){
 			Node a = shiftDoubleTile(0,-1,this.empty1,this.empty2);
 			if(a!=null) result.add(a);
 		}
 
-//				String msg = "";
-//				for (int i = 0; i < result.size(); i++) {
-//					msg += result.get(i).toString() +"    \n "+i;
-//				}
-//				System.out.println(msg);
+		String msg = "\nDouble Right:\n";
+		for (int i = 0; i < result.size(); i++) {
+			msg += result.get(i).toString() +"    \n "+i;
+		}
+		System.out.println(msg);
 		return  result;
 	}
 
@@ -181,14 +194,14 @@ public class Node {
 			if(a!=null) result.add(a);
 		}
 
-//				String msg = "";
-//				for (int i = 0; i < result.size(); i++) {
-//					msg += result.get(i).toString() +"    \n "+i;
-//				}
-//				System.out.println(msg);
+		String msg = "\nDouble Down:\n";
+		for (int i = 0; i < result.size(); i++) {
+			msg += result.get(i).toString() +"    \n "+i;
+		}
+		System.out.println(msg);
 		return  result;
 	}
-	
+
 	private ArrayList<Node> doubleMoveUp(){
 		ArrayList<Node> result = new ArrayList<>();
 
@@ -197,14 +210,14 @@ public class Node {
 			if(a!=null) result.add(a);
 		}
 
-		String msg = "";
+		String msg = "\nDouble up:\n";
 		for (int i = 0; i < result.size(); i++) {
 			msg += result.get(i).toString() +"    \n "; //+i
 		}
 		System.out.println(msg);
 		return  result;
 	}
-	
+
 	private Node shiftSingleTile(int directionI, int directionJ, Cell emptyToMove, Cell otherEmpty){
 		if(this.stage[emptyToMove.i+directionI][emptyToMove.j+directionJ] != null){
 			Node currentMove = new Node();
@@ -262,7 +275,7 @@ public class Node {
 			currentMove.father = this;
 
 			currentMove.move +="-" +pathString(directionI, directionJ, tmp);
-			
+
 			//second empty cell move
 			int k = empty2ToMove.i;
 			int l = empty2ToMove.j;
@@ -272,21 +285,21 @@ public class Node {
 			currentMove.stage[k+directionI][l+directionJ] = null;
 
 			//updating empty
-//			currentMove.empty1 = new Cell();
-//			currentMove.empty1.i = k+directionI;
-//			currentMove.empty1.j = l+directionJ;
+			//			currentMove.empty1 = new Cell();
+			//			currentMove.empty1.i = k+directionI;
+			//			currentMove.empty1.j = l+directionJ;
 
 			currentMove.empty2 = new Cell();
 			currentMove.empty2.i = k+directionI;
 			currentMove.empty2.j = l+directionJ;
-			
+
 			currentMove.move += "-"+pathString(directionI, directionJ, tmp);
-			
+
 			return currentMove;
 		}
 		return null;
 	}
-	
+
 	private String pathString(int directionI, int directionJ, Integer value) {
 		String result = value.toString();
 		if(directionI == 1){
@@ -299,15 +312,16 @@ public class Node {
 			result += "L";
 		}
 		else if(directionJ == -1){
-				result += "R";
+			result += "R";
 		}
 		return result;
 	}
 
 	private boolean sameColumnOrRow() {
-		return ((this.empty1.i == this.empty2.i) || (this.empty1.j == this.empty2.j));
+		return (((this.empty1.i == this.empty2.i) || (this.empty1.j == this.empty2.j))
+				&& ((Math.abs(this.empty1.i - this.empty2.i) == 1) && (Math.abs(this.empty1.j - this.empty2.j) == 1)));
 	}
-	
+
 	@Override
 	public String toString(){
 		String msg;
@@ -320,7 +334,7 @@ public class Node {
 		}
 		msg += "empty1= "+this.father.empty1.toString();
 		msg += "empty2= "+this.father.empty2.toString();
-		
+
 		msg += "current board: \n";
 		for(int i=0; i<this.stage.length; i++){
 			for(int j=0; j<this.stage[0].length; j++){

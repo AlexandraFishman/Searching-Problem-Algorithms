@@ -64,7 +64,7 @@ public class InputFile {
 	}
 
 	public Node endBoard() {
-		Node n= new Node(this.board.clone());
+		Node n= new Node(Utils.deepCopy(this.board.clone()));
 		int d=1;
 		int length = this.board.length;
 		for (int i = 0; i < length; i++) {
@@ -74,10 +74,10 @@ public class InputFile {
 				if(d > (length*width-2)){
 					n.stage[i][j] = null;
 				}
-				System.out.print(n.stage[i][j]+" ");
+//				System.out.print(n.stage[i][j]+" ");
 				d++;
 			}
-			System.out.println("");
+//			System.out.println("");
 		}
 		return n;
 	}

@@ -34,26 +34,47 @@ public class BFS {
 		openListQueue.add(startingBoard);
 		
 		previousStates = new Hashtable<>();
-		
 		while(!openListQueue.isEmpty()){
-			Node n = openListQueue.remove();
-			Integer [][] closedListHashkey =n.stage ;
-			previousStates.put(closedListHashkey, n);
-			ArrayList<Node> generatedMovesOnStage = n.generateMovement(); 
-			int  i=0;
-			while(generatedMovesOnStage != null){
-				if((openListHash.get(generatedMovesOnStage.get(i).stage) != null) && (previousStates.get(generatedMovesOnStage.get(i).stage) != null)){
-					if(Arrays.deepEquals(generatedMovesOnStage.get(i).stage, goalStage.stage)){
-						return generatedMovesOnStage.get(i).move;
-					}
-					openListHashkey = n.stage;
-					openListHash.put(openListHashkey, n);
-					openListQueue.add(n);
-				}
-				i++;
+			Node currentNode = openListQueue.remove();
+			openListHash.remove(currentNode.stage);
+			Integer [][] closedListHashkey =currentNode.stage ;
+			previousStates.put(closedListHashkey, currentNode);
+			ArrayList<Node> generatedMovesOnStage = currentNode.generateMovement(); 
+			/////
+			System.out.println("generatedMoves array list: \n");
+			for (int i = 0; i < generatedMovesOnStage.size(); i++) {
+				System.out.println(generatedMovesOnStage.get(i).toString());
+				System.out.println("\n\n");
 			}
-			if(!openListQueue.isEmpty())
-				n = openListQueue.remove();
+			////
+			if(Arrays.deepEquals(currentNode.stage, goalStage.stage)){
+				System.out.println("moves: "+currentNode.move);
+				return currentNode.move;
+			}
+			int  i=0;
+			for (Node nextMove : generatedMovesOnStage) {
+				if(!openListHash.containsKey(nextMove.stage) && !previousStates.containsKey(nextMove.stage)){
+					if(Arrays.deepEquals(nextMove.stage, goalStage.stage)){
+						return nextMove.move;
+					}
+					openListHashkey = nextMove.stage;
+					openListHash.put(openListHashkey, nextMove);
+					openListQueue.add(nextMove);
+				}
+			}
+//			while(!generatedMovesOnStage.isEmpty() && i < generatedMovesOnStage.size()){
+//				if((openListHash.get(generatedMovesOnStage.get(i).stage) == null) && (previousStates.get(generatedMovesOnStage.get(i).stage) == null)){
+//					if(Arrays.deepEquals(generatedMovesOnStage.get(i).stage, goalStage.stage)){
+//						return generatedMovesOnStage.get(i).move;
+//					}
+//					openListHashkey = currentNode.stage;
+//					openListHash.put(openListHashkey, currentNode);
+//					openListQueue.add(currentNode);
+//				}
+//				i++;
+//			}
+//			if(!openListQueue.isEmpty())
+//				n = openListQueue.remove();
 		}
 		
 		return null;
