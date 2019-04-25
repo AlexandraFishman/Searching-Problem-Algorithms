@@ -40,19 +40,32 @@ public class Node {
 
 	public ArrayList<Node> generateMovement(){
 		ArrayList<Node> possibleMoves = new ArrayList<Node>();
-		for (int i = 0; i < this.stage.length; i++) {
-			for (int j = 0; j < this.stage[0].length; j++) {
-				//				Node n = neighborToMoveTo(i, j);
-				//				if(n != null){
-				//					possibleMoves.add(n);
-				//				}
-			}
-		}
+		
+		//double moves
+		if(this.doubleMoveLeft() != null)
+			possibleMoves.addAll(this.doubleMoveLeft());
+		else if(this.doubleMoveUp() != null)
+			possibleMoves.addAll(this.doubleMoveUp());
+		else if(this.doubleMoveRight() != null)
+			possibleMoves.addAll(this.doubleMoveRight());
+		else if(this.doubleMoveDown() != null)
+			possibleMoves.addAll(this.doubleMoveDown());
+		
+		//single moves
+		else if(this.singleMoveLeft() != null)
+			possibleMoves.addAll(this.singleMoveLeft());
+		else if(this.singleMoveUp() != null)
+			possibleMoves.addAll(this.singleMoveUp());
+		else if(this.singleMoveRight() != null)
+			possibleMoves.addAll(this.singleMoveRight());
+		else if(this.singleMoveDown() != null)
+			possibleMoves.addAll(this.singleMoveDown());
+		
 		return  null;
 	}
 
 	//returns node by one left  movement
-	public ArrayList<Node> singleMoveLeft(){
+	private ArrayList<Node> singleMoveLeft(){
 		ArrayList<Node> result = new ArrayList<>();
 
 		if(this.empty1.j+1  <= this.stage.length){
@@ -72,7 +85,7 @@ public class Node {
 		return  result;
 	}
 
-	public ArrayList<Node> singleMoveRight(){
+	private ArrayList<Node> singleMoveRight(){
 		ArrayList<Node> result = new ArrayList<>();
 
 		if(this.empty1.j-1  <= this.stage.length){
@@ -92,7 +105,7 @@ public class Node {
 		return  result;
 	}
 
-	public ArrayList<Node> singleMoveDown(){
+	private ArrayList<Node> singleMoveDown(){
 		ArrayList<Node> result = new ArrayList<>();
 
 		if(this.empty1.i-1  >= 0){
@@ -112,7 +125,7 @@ public class Node {
 		return  result;
 	}
 
-	public ArrayList<Node> singleMoveUp(){
+	private ArrayList<Node> singleMoveUp(){
 		ArrayList<Node> result = new ArrayList<>();
 
 		if(this.empty1.i+1  <= this.stage[0].length){
@@ -132,7 +145,7 @@ public class Node {
 		return  result;
 	}
 
-	public ArrayList<Node> doubleMoveLeft(){
+	private ArrayList<Node> doubleMoveLeft(){
 		ArrayList<Node> result = new ArrayList<>();
 		
 		if((this.empty1.i+1  <= this.stage[0].length) &&(this.empty2.i+1  <= this.stage[0].length) && this.sameColumnOrRow()){
@@ -149,7 +162,7 @@ public class Node {
 		return result;
 	}
 	
-	public ArrayList<Node> doubleMoveRight(){
+	private ArrayList<Node> doubleMoveRight(){
 		ArrayList<Node> result = new ArrayList<>();
 
 		if((this.empty1.j-1  <= this.stage.length) && (this.empty2.j-1  <= this.stage.length) && this.sameColumnOrRow()){
@@ -165,7 +178,7 @@ public class Node {
 		return  result;
 	}
 
-	public ArrayList<Node> doubleMoveDown(){
+	private ArrayList<Node> doubleMoveDown(){
 		ArrayList<Node> result = new ArrayList<>();
 
 		if((this.empty1.i-1  >= 0) && (this.empty2.i-1  >= 0) && this.sameColumnOrRow()){
@@ -181,7 +194,7 @@ public class Node {
 		return  result;
 	}
 	
-	public ArrayList<Node> doubleMoveUp(){
+	private ArrayList<Node> doubleMoveUp(){
 		ArrayList<Node> result = new ArrayList<>();
 
 		if((this.empty1.i+1  <= this.stage[0].length) && (this.empty2.i+1  <= this.stage[0].length) && this.sameColumnOrRow()){

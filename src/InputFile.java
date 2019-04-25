@@ -43,17 +43,17 @@ public class InputFile {
 			System.err.format("IOException: %s%n", e);
 		}
 		
-		Node n = new Node(this.board.clone());
-		n.singleMoveLeft();
-		n.singleMoveRight();
-		n.singleMoveDown();
-		n.singleMoveUp();
-		
-		n.doubleMoveLeft();
-		n.doubleMoveRight();
-		n.doubleMoveDown();
-		n.doubleMoveUp();
-//		System.out.println("\n\n\n\n Original board:");
+//		Node n = new Node(this.board.clone());
+//		n.singleMoveLeft();
+//		n.singleMoveRight();
+//		n.singleMoveDown();
+//		n.singleMoveUp();
+//		
+//		n.doubleMoveLeft();
+//		n.doubleMoveRight();
+//		n.doubleMoveDown();
+//		n.doubleMoveUp();
+		System.out.println("\n\n\n\nOriginal board:");
 		System.out.println(this.toString());
 
 	}
