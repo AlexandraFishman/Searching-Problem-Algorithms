@@ -44,8 +44,10 @@ public class InputFile {
 		}
 		
 //		Node n = new Node(this.board.clone());
-//		n.singleMoveLeft();
-//		n.singleMoveRight();
+//		Cell c1 = new Cell();
+//		Cell c2 = new Cell();
+//		n.singleMoveLeft(c1,c2);
+//		n.singleMoveRight(c1,c2);
 //		n.singleMoveDown();
 //		n.singleMoveUp();
 //		
@@ -53,6 +55,7 @@ public class InputFile {
 //		n.doubleMoveRight();
 //		n.doubleMoveDown();
 //		n.doubleMoveUp();
+		
 		System.out.println("\n\n\n\nOriginal board:");
 		System.out.println(this.toString());
 

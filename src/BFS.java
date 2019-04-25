@@ -9,6 +9,7 @@ public class BFS {
 	Queue<Node> openListQueue = new LinkedList();
 	Hashtable<Integer, Node> previousStates; //closed-list
 	Hashtable<Integer, Node> openListHash;
+	
 	/*
 	 * BFS(Node start, Vector Goals)
 		1. L <- make_queue(start) and make_hash_table
@@ -33,6 +34,4 @@ public class BFS {
 //			Node n = openList.remove(key)
 //		}
 	}
-
-
 }

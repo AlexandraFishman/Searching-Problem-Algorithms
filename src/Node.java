@@ -51,30 +51,52 @@ public class Node {
 		else if(this.doubleMoveDown() != null)
 			possibleMoves.addAll(this.doubleMoveDown());
 		
-		//single moves
-		else if(this.singleMoveLeft() != null)
-			possibleMoves.addAll(this.singleMoveLeft());
-		else if(this.singleMoveUp() != null)
-			possibleMoves.addAll(this.singleMoveUp());
-		else if(this.singleMoveRight() != null)
-			possibleMoves.addAll(this.singleMoveRight());
-		else if(this.singleMoveDown() != null)
-			possibleMoves.addAll(this.singleMoveDown());
+		//single moves for first  empty cell
+		else if(this.singleMoveLeft(this.empty1, this.empty2) != null)
+			possibleMoves.addAll(this.singleMoveLeft(this.empty1, this.empty2));
+		else if(this.singleMoveUp(this.empty1, this.empty2) != null)
+			possibleMoves.addAll(this.singleMoveUp(this.empty1, this.empty2));
+		else if(this.singleMoveRight(this.empty1, this.empty2) != null)
+			possibleMoves.addAll(this.singleMoveRight(this.empty1, this.empty2));
+		else if(this.singleMoveDown(this.empty1, this.empty2) != null)
+			possibleMoves.addAll(this.singleMoveDown(this.empty1, this.empty2));
 		
+		//single moves for second  empty cell
+				else if(this.singleMoveLeft(this.empty2, this.empty1) != null)
+					possibleMoves.addAll(this.singleMoveLeft(this.empty2, this.empty1));
+				else if(this.singleMoveUp(this.empty2, this.empty1) != null)
+					possibleMoves.addAll(this.singleMoveUp(this.empty2, this.empty1));
+				else if(this.singleMoveRight(this.empty2, this.empty1) != null)
+					possibleMoves.addAll(this.singleMoveRight(this.empty2, this.empty1));
+				else if(this.singleMoveDown(this.empty2, this.empty1) != null)
+					possibleMoves.addAll(this.singleMoveDown(this.empty2, this.empty1));
+				
 		return  null;
 	}
 
 	//returns node by one left  movement
-	private ArrayList<Node> singleMoveLeft(){
+	private ArrayList<Node> singleMoveLeft(Cell empty1, Cell empty2){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if(this.empty1.j+1  <= this.stage.length){
-			Node a = shiftSingleTile(0,1,this.empty1,this.empty2);
+		if(empty1.j+1  <= this.stage.length){
+			Node a = shiftSingleTile(0,1,empty1,empty2);
 			if(a!=null) result.add(a);
 		}
-		if(this.empty2.j+1  <= this.stage.length){
-			Node b = shiftSingleTile(0,1,this.empty2,this.empty1);
-			if(b!=null) result.add(b);
+		
+		//		String msg = "";
+		//		for (int i = 0; i < result.size(); i++) {
+		//			msg += result.get(i).toString() +"    \n "+i;
+		//		}
+		//		System.out.println(msg);
+		return  result;
+	}
+
+	private ArrayList<Node> singleMoveRight(Cell empty1, Cell empty2){
+		ArrayList<Node> result = new ArrayList<>();
+
+		if(empty1.j-1  <= this.stage.length){
+			Node a = shiftSingleTile(0,-1,empty1,empty2);
+			if(a!=null) result.add(a);
 		}
 
 		//		String msg = "";
@@ -85,36 +107,12 @@ public class Node {
 		return  result;
 	}
 
-	private ArrayList<Node> singleMoveRight(){
-		ArrayList<Node> result = new ArrayList<>();
-
-		if(this.empty1.j-1  <= this.stage.length){
-			Node a = shiftSingleTile(0,-1,this.empty1,this.empty2);
-			if(a!=null) result.add(a);
-		}
-		if(this.empty2.j-1  <= this.stage.length){
-			Node b = shiftSingleTile(0,-1,this.empty2,this.empty1);
-			if(b!=null) result.add(b);
-		}
-
-		//		String msg = "";
-		//		for (int i = 0; i < result.size(); i++) {
-		//			msg += result.get(i).toString() +"    \n "+i;
-		//		}
-		//		System.out.println(msg);
-		return  result;
-	}
-
-	private ArrayList<Node> singleMoveDown(){
+	private ArrayList<Node> singleMoveDown(Cell empty1, Cell empty2){
 		ArrayList<Node> result = new ArrayList<>();
 
 		if(this.empty1.i-1  >= 0){
-			Node a = shiftSingleTile(-1,0,this.empty1,this.empty2);
+			Node a = shiftSingleTile(-1,0,empty1,empty2);
 			if(a!=null) result.add(a);
-		}
-		if(this.empty2.i-1  >= 0){
-			Node b = shiftSingleTile(-1,0,this.empty2,this.empty1);
-			if(b!=null) result.add(b);
 		}
 
 		//		String msg = "";
@@ -125,18 +123,14 @@ public class Node {
 		return  result;
 	}
 
-	private ArrayList<Node> singleMoveUp(){
+	private ArrayList<Node> singleMoveUp(Cell empty1, Cell empty2){
 		ArrayList<Node> result = new ArrayList<>();
 
 		if(this.empty1.i+1  <= this.stage[0].length){
-			Node a = shiftSingleTile(1,0,this.empty1,this.empty2);
+			Node a = shiftSingleTile(1,0,empty1,empty2);
 			if(a!=null) result.add(a);
 		}
-		if(this.empty2.i+1  <= this.stage[0].length){
-			Node b = shiftSingleTile(1,0,this.empty2,this.empty1);
-			if(b!=null) result.add(b);
-		}
-
+		
 //		String msg = "";
 //		for (int i = 0; i < result.size(); i++) {
 //			msg += result.get(i).toString() +"    \n "; //+i
