@@ -127,7 +127,7 @@ public class Node {
 
 		String msg = "";
 		for (int i = 0; i < result.size(); i++) {
-			msg += result.get(i).toString() +"    \n "+i;
+			msg += result.get(i).toString() +"    \n "; //+i
 		}
 		System.out.println(msg);
 		return  result;
@@ -176,21 +176,34 @@ public class Node {
 		else if(directionJ == 1){
 			result += "L";
 		}
-		result += "R";
+		else if(directionJ == -1){
+				result += "R";
+		}
 		return result;
 	}
 
 	@Override
 	public String toString(){
 		String msg;
-		msg = this.movementCost+"\n";
-
+		msg = "cost: "+this.movementCost+"\n"+ "move: "+this.move+ "\nfather: \n";
+		for(int i=0; i<this.father.stage.length; i++){
+			for(int j=0; j<this.father.stage[0].length; j++){
+				msg += this.father.stage[i][j]+" ";
+			}
+			msg += "\n";
+		}
+		msg += "empty1= "+this.father.empty1.toString();
+		msg += "empty2= "+this.father.empty2.toString();
+		
+		msg += "current board: \n";
 		for(int i=0; i<this.stage.length; i++){
 			for(int j=0; j<this.stage[0].length; j++){
 				msg += this.stage[i][j]+" ";
 			}
 			msg += "\n";
 		}
+		msg += "empty1= "+this.empty1.toString();
+		msg += "empty2= "+this.empty2.toString();
 		return  msg;
 
 	}

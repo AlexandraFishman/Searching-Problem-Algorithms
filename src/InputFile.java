@@ -48,7 +48,7 @@ public class InputFile {
 		n.singleMoveRight();
 		n.singleMoveDown();
 		n.singleMoveUp();
-		System.out.println("\n\n\n\n Original board:");
+//		System.out.println("\n\n\n\n Original board:");
 		System.out.println(this.toString());
 
 	}
