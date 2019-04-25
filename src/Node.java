@@ -124,33 +124,77 @@ public class Node {
 			if(b!=null) result.add(b);
 		}
 
-		String msg = "";
-		for (int i = 0; i < result.size(); i++) {
-			msg += result.get(i).toString() +"    \n "; //+i
-		}
-		System.out.println(msg);
+//		String msg = "";
+//		for (int i = 0; i < result.size(); i++) {
+//			msg += result.get(i).toString() +"    \n "; //+i
+//		}
+//		System.out.println(msg);
 		return  result;
 	}
 
 	public ArrayList<Node> doubleMoveLeft(){
 		ArrayList<Node> result = new ArrayList<>();
 		
-		if((this.empty1.i+1  <= this.stage[0].length) &&(this.empty2.i+1  <= this.stage[0].length)){
+		if((this.empty1.i+1  <= this.stage[0].length) &&(this.empty2.i+1  <= this.stage[0].length) && this.sameColumnOrRow()){
 			Node a = shiftDoubleTile(1, 0, this.empty1, this.empty2);
 			if(a!=null) result.add(a);
 		}
-//		if(this.empty2.i+1  <= this.stage[0].length){
-//			Node b = shiftSingleTile(1,0,this.empty2,this.empty1);
-//			if(b!=null) result.add(b);
+
+//		String msg = "";
+//		for (int i = 0; i < result.size(); i++) {
+//			msg += result.get(i).toString() +"    \n "; //+i
 //		}
+//		System.out.println(msg);
+		
+		return result;
+	}
+	
+	public ArrayList<Node> doubleMoveRight(){
+		ArrayList<Node> result = new ArrayList<>();
+
+		if((this.empty1.j-1  <= this.stage.length) && (this.empty2.j-1  <= this.stage.length) && this.sameColumnOrRow()){
+			Node a = shiftDoubleTile(0,-1,this.empty1,this.empty2);
+			if(a!=null) result.add(a);
+		}
+
+//				String msg = "";
+//				for (int i = 0; i < result.size(); i++) {
+//					msg += result.get(i).toString() +"    \n "+i;
+//				}
+//				System.out.println(msg);
+		return  result;
+	}
+
+	public ArrayList<Node> doubleMoveDown(){
+		ArrayList<Node> result = new ArrayList<>();
+
+		if((this.empty1.i-1  >= 0) && (this.empty2.i-1  >= 0) && this.sameColumnOrRow()){
+			Node a = shiftDoubleTile(-1,0,this.empty1,this.empty2);
+			if(a!=null) result.add(a);
+		}
+
+//				String msg = "";
+//				for (int i = 0; i < result.size(); i++) {
+//					msg += result.get(i).toString() +"    \n "+i;
+//				}
+//				System.out.println(msg);
+		return  result;
+	}
+	
+	public ArrayList<Node> doubleMoveUp(){
+		ArrayList<Node> result = new ArrayList<>();
+
+		if((this.empty1.i+1  <= this.stage[0].length) && (this.empty2.i+1  <= this.stage[0].length) && this.sameColumnOrRow()){
+			Node a = shiftDoubleTile(1,0,this.empty1,this.empty2);
+			if(a!=null) result.add(a);
+		}
 
 		String msg = "";
 		for (int i = 0; i < result.size(); i++) {
 			msg += result.get(i).toString() +"    \n "; //+i
 		}
 		System.out.println(msg);
-		
-		return result;
+		return  result;
 	}
 	
 	private Node shiftSingleTile(int directionI, int directionJ, Cell emptyToMove, Cell otherEmpty){
@@ -252,6 +296,10 @@ public class Node {
 		return result;
 	}
 
+	private boolean sameColumnOrRow() {
+		return ((this.empty1.i == this.empty2.i) || (this.empty1.j == this.empty2.j));
+	}
+	
 	@Override
 	public String toString(){
 		String msg;
