@@ -10,6 +10,7 @@ public class Node {
 
 	public Node(){
 		this.move ="";
+		this.stage = new Integer [128][128];
 	}
 
 	public Node(Integer [][] board){
@@ -78,7 +79,7 @@ public class Node {
 	private ArrayList<Node> singleMoveLeft(Cell empty1, Cell empty2){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if(empty1.j+1  <= this.stage.length){
+		if(empty1.j+1  < this.stage.length){
 			Node a = shiftSingleTile(0,1,empty1,empty2);
 			if(a!=null) result.add(a);
 		}
@@ -94,7 +95,7 @@ public class Node {
 	private ArrayList<Node> singleMoveRight(Cell empty1, Cell empty2){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if(empty1.j-1  <= this.stage.length){
+		if(empty1.j-1  < this.stage.length){
 			Node a = shiftSingleTile(0,-1,empty1,empty2);
 			if(a!=null) result.add(a);
 		}
@@ -126,7 +127,7 @@ public class Node {
 	private ArrayList<Node> singleMoveUp(Cell empty1, Cell empty2){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if(this.empty1.i+1  <= this.stage[0].length){
+		if(this.empty1.i+1  < this.stage.length){
 			Node a = shiftSingleTile(1,0,empty1,empty2);
 			if(a!=null) result.add(a);
 		}
@@ -142,7 +143,7 @@ public class Node {
 	private ArrayList<Node> doubleMoveLeft(){
 		ArrayList<Node> result = new ArrayList<>();
 		
-		if((this.empty1.i+1  <= this.stage[0].length) &&(this.empty2.i+1  <= this.stage[0].length) && this.sameColumnOrRow()){
+		if((this.empty1.i+1  < this.stage.length) && (this.empty2.i+1  < this.stage.length) && this.sameColumnOrRow()){
 			Node a = shiftDoubleTile(1, 0, this.empty1, this.empty2);
 			if(a!=null) result.add(a);
 		}
@@ -159,7 +160,7 @@ public class Node {
 	private ArrayList<Node> doubleMoveRight(){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if((this.empty1.j-1  <= this.stage.length) && (this.empty2.j-1  <= this.stage.length) && this.sameColumnOrRow()){
+		if((this.empty1.j-1  < this.stage[0].length) && (this.empty2.j-1  < this.stage[0].length) && this.sameColumnOrRow()){
 			Node a = shiftDoubleTile(0,-1,this.empty1,this.empty2);
 			if(a!=null) result.add(a);
 		}
@@ -191,7 +192,7 @@ public class Node {
 	private ArrayList<Node> doubleMoveUp(){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if((this.empty1.i+1  <= this.stage[0].length) && (this.empty2.i+1  <= this.stage[0].length) && this.sameColumnOrRow()){
+		if((this.empty1.i+1  < this.stage.length) && (this.empty2.i+1  < this.stage.length) && this.sameColumnOrRow()){
 			Node a = shiftDoubleTile(1,0,this.empty1,this.empty2);
 			if(a!=null) result.add(a);
 		}

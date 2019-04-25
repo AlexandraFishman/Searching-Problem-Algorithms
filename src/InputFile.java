@@ -43,7 +43,7 @@ public class InputFile {
 			System.err.format("IOException: %s%n", e);
 		}
 		
-//		Node n = new Node(this.board.clone());
+		Node n = new Node(this.board.clone());
 //		Cell c1 = new Cell();
 //		Cell c2 = new Cell();
 //		n.singleMoveLeft(c1,c2);
@@ -55,12 +55,33 @@ public class InputFile {
 //		n.doubleMoveRight();
 //		n.doubleMoveDown();
 //		n.doubleMoveUp();
-		
+		BFS bfs = new BFS();
+		Node asd = this.endBoard();
+		String s = bfs.BFS_Algorithm(n, asd);
+		System.out.println(s);
 		System.out.println("\n\n\n\nOriginal board:");
-		System.out.println(this.toString());
-
+		System.out.println(this.toString()+"\n\n\n\n");
 	}
 
+	public Node endBoard() {
+		Node n= new Node(this.board.clone());
+		int d=1;
+		int length = this.board.length;
+		for (int i = 0; i < length; i++) {
+			int width = this.board[0].length;
+			for (int j = 0; j < width; j++) {
+				n.stage[i][j] = d;
+				if(d > (length*width-2)){
+					n.stage[i][j] = null;
+				}
+				System.out.print(n.stage[i][j]+" ");
+				d++;
+			}
+			System.out.println("");
+		}
+		return n;
+	}
+	
 	@Override
 	public String toString(){
 		String msg;
