@@ -11,6 +11,7 @@ public class Node {
 	public Node(){
 		this.move ="";
 		this.stage = new Integer [128][128];
+		
 	}
 
 	public Node(Integer [][] board){
@@ -92,7 +93,7 @@ public class Node {
 	private ArrayList<Node> singleMoveLeft(Cell empty1, Cell empty2){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if(empty1.j+1  < this.stage.length){
+		if(empty1.j+1  < this.stage[0].length){
 			Node a = shiftSingleTile(0,1,empty1,empty2);
 			if(a!=null) result.add(a);
 		}
@@ -108,7 +109,7 @@ public class Node {
 	private ArrayList<Node> singleMoveRight(Cell empty1, Cell empty2){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if(empty1.j-1  < this.stage.length){
+		if(empty1.j-1  < this.stage[0].length){
 			Node a = shiftSingleTile(0,-1,empty1,empty2);
 			if(a!=null) result.add(a);
 		}
@@ -124,7 +125,7 @@ public class Node {
 	private ArrayList<Node> singleMoveDown(Cell empty1, Cell empty2){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if(this.empty1.i-1  >= 0){
+		if(empty1.i-1  >= 0){
 			Node a = shiftSingleTile(-1,0,empty1,empty2);
 			if(a!=null) result.add(a);
 		}
@@ -140,7 +141,7 @@ public class Node {
 	private ArrayList<Node> singleMoveUp(Cell empty1, Cell empty2){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if(this.empty1.i+1  < this.stage.length){
+		if(empty1.i+1  < this.stage.length){
 			Node a = shiftSingleTile(1,0,empty1,empty2);
 			if(a!=null) result.add(a);
 		}
@@ -156,7 +157,7 @@ public class Node {
 	private ArrayList<Node> doubleMoveLeft(){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if((this.empty1.i+1  < this.stage.length) && (this.empty2.i+1  < this.stage.length) && this.sameColumnOrRow()){
+		if((this.empty1.i+1  < this.stage.length) && (this.empty2.i+1  < this.stage.length) && this.sameColumn()){
 			Node a = shiftDoubleTile(1, 0, this.empty1, this.empty2);
 			if(a!=null) result.add(a);
 		}
@@ -173,7 +174,7 @@ public class Node {
 	private ArrayList<Node> doubleMoveRight(){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if((this.empty1.j-1  >= 0) && (this.empty2.j-1 >= 0) && this.sameColumnOrRow()){
+		if((this.empty1.j-1  >= 0) && (this.empty2.j-1 >= 0) && this.sameColumn()){
 			Node a = shiftDoubleTile(0,-1,this.empty1,this.empty2);
 			if(a!=null) result.add(a);
 		}
@@ -189,7 +190,7 @@ public class Node {
 	private ArrayList<Node> doubleMoveDown(){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if((this.empty1.i-1  >= 0) && (this.empty2.i-1  >= 0) && this.sameColumnOrRow()){
+		if((this.empty1.i-1  >= 0) && (this.empty2.i-1  >= 0) && this.sameRow()){
 			Node a = shiftDoubleTile(-1,0,this.empty1,this.empty2);
 			if(a!=null) result.add(a);
 		}
@@ -205,7 +206,7 @@ public class Node {
 	private ArrayList<Node> doubleMoveUp(){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if((this.empty1.i+1  < this.stage.length) && (this.empty2.i+1  < this.stage.length) && this.sameColumnOrRow()){
+		if((this.empty1.i+1  < this.stage.length) && (this.empty2.i+1  < this.stage.length) && this.sameRow()){
 			Node a = shiftDoubleTile(1,0,this.empty1,this.empty2);
 			if(a!=null) result.add(a);
 		}
@@ -245,6 +246,8 @@ public class Node {
 			currentMove.father = this;
 
 			currentMove.move = pathString(directionI, directionJ, tmp);
+			
+			System.out.println("hineeeee:"+pathString(directionI, directionJ, tmp));
 			return currentMove;
 		}
 		return null;
@@ -285,10 +288,6 @@ public class Node {
 			currentMove.stage[k+directionI][l+directionJ] = null;
 
 			//updating empty
-			//			currentMove.empty1 = new Cell();
-			//			currentMove.empty1.i = k+directionI;
-			//			currentMove.empty1.j = l+directionJ;
-
 			currentMove.empty2 = new Cell();
 			currentMove.empty2.i = k+directionI;
 			currentMove.empty2.j = l+directionJ;
@@ -301,7 +300,12 @@ public class Node {
 	}
 
 	private String pathString(int directionI, int directionJ, Integer value) {
-		String result = value.toString();
+		String result ="";
+		if(move!= null && move.length() > 0){
+			result += move+"-"+value.toString();
+		}
+		else 
+			result = value.toString();
 		if(directionI == 1){
 			result += "U";
 		}
@@ -317,24 +321,42 @@ public class Node {
 		return result;
 	}
 
-	private boolean sameColumnOrRow() {
-		return (((this.empty1.i == this.empty2.i) || (this.empty1.j == this.empty2.j))
-				&& ((Math.abs(this.empty1.i - this.empty2.i) == 1) && (Math.abs(this.empty1.j - this.empty2.j) == 1)));
+	private boolean sameColumn() {
+		return ((this.empty1.j == this.empty2.j) && (Math.abs(this.empty1.i - this.empty2.i) == 1));
+	}
+	
+	private boolean sameRow() {
+		return ((this.empty1.i == this.empty2.i) && (Math.abs(this.empty1.j - this.empty2.j) == 1));
 	}
 
 	@Override
 	public String toString(){
-		String msg;
-		msg = "cost: "+this.movementCost+"\n"+ "move: "+this.move+ "\nfather: \n";
-		for(int i=0; i<this.father.stage.length; i++){
-			for(int j=0; j<this.father.stage[0].length; j++){
-				msg += this.father.stage[i][j]+" ";
-			}
-			msg += "\n";
-		}
-		msg += "empty1= "+this.father.empty1.toString();
-		msg += "empty2= "+this.father.empty2.toString();
+//		String msg;
+//		msg = "cost: "+this.movementCost+"\n"+ "move: "+this.move+ "\nfather: \n";
+//		for(int i=0; i<this.father.stage.length; i++){
+//			for(int j=0; j<this.father.stage[0].length; j++){
+//				msg += this.father.stage[i][j]+" ";
+//			}
+//			msg += "\n";
+//		}
+//		msg += "empty1= "+this.father.empty1.toString();
+//		msg += "empty2= "+this.father.empty2.toString();
+//
+//		msg += "current board: \n";
+//		for(int i=0; i<this.stage.length; i++){
+//			for(int j=0; j<this.stage[0].length; j++){
+//				msg += this.stage[i][j]+" ";
+//			}
+//			msg += "\n";
+//		}
+//		msg += "empty1= "+this.empty1.toString();
+//		msg += "empty2= "+this.empty2.toString();
+//		return  msg;
 
+		
+		String msg;
+		msg = "move: "+this.move+ "\n";
+		
 		msg += "current board: \n";
 		for(int i=0; i<this.stage.length; i++){
 			for(int j=0; j<this.stage[0].length; j++){
@@ -342,8 +364,7 @@ public class Node {
 			}
 			msg += "\n";
 		}
-		msg += "empty1= "+this.empty1.toString();
-		msg += "empty2= "+this.empty2.toString();
+		msg += "father.move="+this.father.move+"\n";
 		return  msg;
 
 	}
