@@ -11,7 +11,7 @@ public class Node {
 	public Node(){
 		this.move ="";
 		this.stage = new Integer [128][128];
-		
+
 	}
 
 	public Node(Integer [][] board){
@@ -58,35 +58,45 @@ public class Node {
 		if(!currentMove.isEmpty())
 			possibleMoves.addAll(currentMove);
 
+		Cell firstEmpty, secondEmpty;
+		if(this.empty1.i < this.empty2.i){ 
+			firstEmpty = this.empty1;
+			secondEmpty = this.empty2;
+		}
+		else if(this.empty1.i > this.empty2.i){
+			firstEmpty = this.empty2;
+			secondEmpty = this.empty1;
+		}
+		else if(this.empty1.j < this.empty2.j){ //same row
+			firstEmpty = this.empty1;
+			secondEmpty = this.empty2;
+		}
+		else{
+			firstEmpty = this.empty2;
+			secondEmpty = this.empty1;
+		}
 		//single moves for first  empty cell
-		currentMove = this.singleMoveLeft(this.empty1, this.empty2);
-		if(!currentMove.isEmpty())
-			possibleMoves.addAll(currentMove);
-		currentMove = this.singleMoveUp(this.empty1, this.empty2);
-		if(!currentMove.isEmpty())
-			possibleMoves.addAll(currentMove);
-		currentMove = this.singleMoveRight(this.empty1, this.empty2);
-		if(!currentMove.isEmpty())
-			possibleMoves.addAll(currentMove);
-		currentMove = this.singleMoveDown(this.empty1, this.empty2);
-		if(!currentMove.isEmpty())
-			possibleMoves.addAll(currentMove);
+		generateSingleMoves(possibleMoves, firstEmpty, secondEmpty);
 
-		//single moves for second  empty cell
-		currentMove = this.singleMoveLeft(this.empty2, this.empty1);
-		if(!currentMove.isEmpty())
-			possibleMoves.addAll(currentMove);
-		currentMove = this.singleMoveUp(this.empty2, this.empty1);
-		if(!currentMove.isEmpty())
-			possibleMoves.addAll(currentMove);
-		currentMove = this.singleMoveRight(this.empty2, this.empty1);
-		if(!currentMove.isEmpty())
-			possibleMoves.addAll(currentMove);
-		currentMove = this.singleMoveDown(this.empty2, this.empty1);
-		if(!currentMove.isEmpty())
-			possibleMoves.addAll(currentMove);
+		generateSingleMoves(possibleMoves, secondEmpty, firstEmpty);
 
 		return  possibleMoves;
+	}
+
+	private void generateSingleMoves(ArrayList<Node> possibleMoves, Cell firstEmpty, Cell secondEmpty) {
+		ArrayList<Node> currentMoves;
+		currentMoves = this.singleMoveLeft(firstEmpty, secondEmpty);
+		if(!currentMoves.isEmpty())
+			possibleMoves.addAll(currentMoves);
+		currentMoves = this.singleMoveUp(firstEmpty, secondEmpty);
+		if(!currentMoves.isEmpty())
+			possibleMoves.addAll(currentMoves);
+		currentMoves = this.singleMoveRight(firstEmpty, secondEmpty);
+		if(!currentMoves.isEmpty())
+			possibleMoves.addAll(currentMoves);
+		currentMoves = this.singleMoveDown(firstEmpty, secondEmpty);
+		if(!currentMoves.isEmpty())
+			possibleMoves.addAll(currentMoves);
 	}
 
 	//returns node by one left  movement
@@ -98,27 +108,27 @@ public class Node {
 			if(a!=null) result.add(a);
 		}
 
-		String msg = "singleLeft:\n";
-		for (int i = 0; i < result.size(); i++) {
-			msg += result.get(i).toString() +"    \n "+i;
-		}
-		System.out.println(msg);
+		//		String msg = "singleLeft:\n";
+		//		for (int i = 0; i < result.size(); i++) {
+		//			msg += result.get(i).toString() +"    \n "+i;
+		//		}
+		//		System.out.println(msg);
 		return  result;
 	}
 
 	private ArrayList<Node> singleMoveRight(Cell empty1, Cell empty2){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if(empty1.j-1  < this.stage[0].length){
+		if(empty1.j-1  >= 0){
 			Node a = shiftSingleTile(0,-1,empty1,empty2);
 			if(a!=null) result.add(a);
 		}
 
-		String msg = "\nSingle right:\n";
-		for (int i = 0; i < result.size(); i++) {
-			msg += result.get(i).toString() +"    \n "+i;
-		}
-		System.out.println(msg);
+		//		String msg = "\nSingle right:\n";
+		//		for (int i = 0; i < result.size(); i++) {
+		//			msg += result.get(i).toString() +"    \n "+i;
+		//		}
+		//		System.out.println(msg);
 		return  result;
 	}
 
@@ -130,11 +140,11 @@ public class Node {
 			if(a!=null) result.add(a);
 		}
 
-		String msg = "\nSingle down:\n";
-		for (int i = 0; i < result.size(); i++) {
-			msg += result.get(i).toString() +"    \n "+i;
-		}
-		System.out.println(msg);
+		//		String msg = "\nSingle down:\n";
+		//		for (int i = 0; i < result.size(); i++) {
+		//			msg += result.get(i).toString() +"    \n "+i;
+		//		}
+		//		System.out.println(msg);
 		return  result;
 	}
 
@@ -146,11 +156,11 @@ public class Node {
 			if(a!=null) result.add(a);
 		}
 
-		String msg = "\nSingle up:\n";
-		for (int i = 0; i < result.size(); i++) {
-			msg += result.get(i).toString() +"    \n "; //+i
-		}
-		System.out.println(msg);
+		//		String msg = "\nSingle up:\n";
+		//		for (int i = 0; i < result.size(); i++) {
+		//			msg += result.get(i).toString() +"    \n "; //+i
+		//		}
+		//		System.out.println(msg);
 		return  result;
 	}
 
@@ -162,11 +172,11 @@ public class Node {
 			if(a!=null) result.add(a);
 		}
 
-		String msg = "\nDouble Left:\n";
-		for (int i = 0; i < result.size(); i++) {
-			msg += result.get(i).toString() +"    \n "; //+i
-		}
-		System.out.println(msg);
+		//		String msg = "\nDouble Left:\n";
+		//		for (int i = 0; i < result.size(); i++) {
+		//			msg += result.get(i).toString() +"    \n "; //+i
+		//		}
+		//		System.out.println(msg);
 
 		return result;
 	}
@@ -179,11 +189,11 @@ public class Node {
 			if(a!=null) result.add(a);
 		}
 
-		String msg = "\nDouble Right:\n";
-		for (int i = 0; i < result.size(); i++) {
-			msg += result.get(i).toString() +"    \n "+i;
-		}
-		System.out.println(msg);
+		//		String msg = "\nDouble Right:\n";
+		//		for (int i = 0; i < result.size(); i++) {
+		//			msg += result.get(i).toString() +"    \n "+i;
+		//		}
+		//		System.out.println(msg);
 		return  result;
 	}
 
@@ -195,11 +205,11 @@ public class Node {
 			if(a!=null) result.add(a);
 		}
 
-		String msg = "\nDouble Down:\n";
-		for (int i = 0; i < result.size(); i++) {
-			msg += result.get(i).toString() +"    \n "+i;
-		}
-		System.out.println(msg);
+		//		String msg = "\nDouble Down:\n";
+		//		for (int i = 0; i < result.size(); i++) {
+		//			msg += result.get(i).toString() +"    \n "+i;
+		//		}
+		//		System.out.println(msg);
 		return  result;
 	}
 
@@ -211,11 +221,11 @@ public class Node {
 			if(a!=null) result.add(a);
 		}
 
-		String msg = "\nDouble up:\n";
-		for (int i = 0; i < result.size(); i++) {
-			msg += result.get(i).toString() +"    \n "; //+i
-		}
-		System.out.println(msg);
+		//		String msg = "\nDouble up:\n";
+		//		for (int i = 0; i < result.size(); i++) {
+		//			msg += result.get(i).toString() +"    \n "; //+i
+		//		}
+		//		System.out.println(msg);
 		return  result;
 	}
 
@@ -231,7 +241,7 @@ public class Node {
 			currentMove.stage[i+directionI][j+directionJ] = null;
 
 			//updating cost
-			currentMove.movementCost +=5;
+			currentMove.movementCost += 5 + this.movementCost;
 
 			//updating empty
 			currentMove.empty1 = new Cell();
@@ -245,9 +255,8 @@ public class Node {
 			//updating father
 			currentMove.father = this;
 
-			currentMove.move = pathString(directionI, directionJ, tmp);
-			
-			System.out.println("hineeeee:"+pathString(directionI, directionJ, tmp));
+			currentMove.move = singleMovePathString(directionI, directionJ, tmp);
+
 			return currentMove;
 		}
 		return null;
@@ -267,8 +276,11 @@ public class Node {
 			currentMove.stage[i+directionI][j+directionJ] = null;
 
 			//updating cost
-			currentMove.movementCost +=6;
-
+			if((directionI == 1) || (directionI == -1))
+				currentMove.movementCost += 6 + this.movementCost;
+			if((directionJ == 1) || (directionJ == -1))
+				currentMove.movementCost += 7 + this.movementCost;
+			
 			//updating empty
 			currentMove.empty1 = new Cell();
 			currentMove.empty1.i = i+directionI;
@@ -277,13 +289,15 @@ public class Node {
 			//updating father ONLY ONCE on empty1 cell update
 			currentMove.father = this;
 
-			currentMove.move +="-" +pathString(directionI, directionJ, tmp);
-
+//			currentMove.move +="-" +singleMovePathString(directionI, directionJ, tmp);
+			int firstCellValue = tmp;
+			
 			//second empty cell move
 			int k = empty2ToMove.i;
 			int l = empty2ToMove.j;
 			//making move and updating empty1 cell
 			tmp = currentMove.stage[k+directionI][l+directionJ];
+			int secondCellValue = tmp;
 			currentMove.stage[k][l] = tmp;
 			currentMove.stage[k+directionI][l+directionJ] = null;
 
@@ -292,14 +306,14 @@ public class Node {
 			currentMove.empty2.i = k+directionI;
 			currentMove.empty2.j = l+directionJ;
 
-			currentMove.move += "-"+pathString(directionI, directionJ, tmp);
+			currentMove.move += doubleMovePathString(directionI, directionJ, firstCellValue, secondCellValue);
 
 			return currentMove;
 		}
 		return null;
 	}
 
-	private String pathString(int directionI, int directionJ, Integer value) {
+	private String singleMovePathString(int directionI, int directionJ, Integer value) {
 		String result ="";
 		if(move!= null && move.length() > 0){
 			result += move+"-"+value.toString();
@@ -321,50 +335,65 @@ public class Node {
 		return result;
 	}
 
+	private String doubleMovePathString(int directionI, int directionJ, Integer value1, Integer value2) {
+		String result ="";
+		if(move!= null && move.length() > 0){
+			result += move+"-"+value1.toString()+"&"+value2.toString();
+		}
+		else 
+			result = value1.toString()+"&"+value2.toString();
+		if(directionI == 1){
+			result += "U";
+		}
+		else if(directionI == -1){
+			result += "D";
+		}
+		else if(directionJ == 1){
+			result += "L";
+		}
+		else if(directionJ == -1){
+			result += "R";
+		}
+		return result;
+	}
+
+	
 	private boolean sameColumn() {
 		return ((this.empty1.j == this.empty2.j) && (Math.abs(this.empty1.i - this.empty2.i) == 1));
 	}
-	
+
 	private boolean sameRow() {
 		return ((this.empty1.i == this.empty2.i) && (Math.abs(this.empty1.j - this.empty2.j) == 1));
 	}
 
 	@Override
 	public String toString(){
-//		String msg;
-//		msg = "cost: "+this.movementCost+"\n"+ "move: "+this.move+ "\nfather: \n";
-//		for(int i=0; i<this.father.stage.length; i++){
-//			for(int j=0; j<this.father.stage[0].length; j++){
-//				msg += this.father.stage[i][j]+" ";
-//			}
-//			msg += "\n";
-//		}
-//		msg += "empty1= "+this.father.empty1.toString();
-//		msg += "empty2= "+this.father.empty2.toString();
-//
-//		msg += "current board: \n";
-//		for(int i=0; i<this.stage.length; i++){
-//			for(int j=0; j<this.stage[0].length; j++){
-//				msg += this.stage[i][j]+" ";
-//			}
-//			msg += "\n";
-//		}
-//		msg += "empty1= "+this.empty1.toString();
-//		msg += "empty2= "+this.empty2.toString();
-//		return  msg;
+		//		String msg;
+		//		msg = "cost: "+this.movementCost+"\n"+ "move: "+this.move+ "\nfather: \n";
+		//		for(int i=0; i<this.father.stage.length; i++){
+		//			for(int j=0; j<this.father.stage[0].length; j++){
+		//				msg += this.father.stage[i][j]+" ";
+		//			}
+		//			msg += "\n";
+		//		}
+		//		msg += "empty1= "+this.father.empty1.toString();
+		//		msg += "empty2= "+this.father.empty2.toString();
+		//
+		//		msg += "current board: \n";
+		//		for(int i=0; i<this.stage.length; i++){
+		//			for(int j=0; j<this.stage[0].length; j++){
+		//				msg += this.stage[i][j]+" ";
+		//			}
+		//			msg += "\n";
+		//		}
+		//		msg += "empty1= "+this.empty1.toString();
+		//		msg += "empty2= "+this.empty2.toString();
+		//		return  msg;
 
-		
+
 		String msg;
 		msg = "move: "+this.move+ "\n";
-		
-		msg += "current board: \n";
-		for(int i=0; i<this.stage.length; i++){
-			for(int j=0; j<this.stage[0].length; j++){
-				msg += this.stage[i][j]+" ";
-			}
-			msg += "\n";
-		}
-		msg += "father.move="+this.father.move+"\n";
+
 		return  msg;
 
 	}

@@ -6,12 +6,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class BFS {
-	
-//	HashMap<Integer, Node> openList = new HashMap<Integer, Node>();
+
+	//	HashMap<Integer, Node> openList = new HashMap<Integer, Node>();
 	Queue<Node> openListQueue = new LinkedList();
-	Hashtable<Integer[][], Node> previousStates = new Hashtable<>(); //closed-list
-	Hashtable<Integer[][], Node> openListHash = new Hashtable<>();
-	
+	Hashtable<String, Node> previousStates = new Hashtable<>(); //closed-list
+	Hashtable<String, Node> openListHash = new Hashtable<>();
+
 	/*
 	 * BFS(Node start, Vector Goals)
 		1. L <- make_queue(start) and make_hash_table
@@ -27,56 +27,50 @@ public class BFS {
 		4. Return false
 	 * */
 
-	public String BFS_Algorithm(Node startingBoard,Node goalStage){
-		//	  HashMap<Integer, String> hmap = new HashMap<Integer, String>();
-		Integer [][] openListHashkey = startingBoard.stage;
+	public Node BFS_Algorithm(Node startingBoard,Node goalStage){
+		String openListHashkey = boardToString(startingBoard);
 		openListHash.put(openListHashkey,startingBoard);
 		openListQueue.add(startingBoard);
-		
+
 		previousStates = new Hashtable<>();
 		while(!openListQueue.isEmpty()){
 			Node currentNode = openListQueue.remove();
-			openListHash.remove(currentNode.stage);
-			Integer [][] closedListHashkey =currentNode.stage ;
+			openListHash.remove(boardToString(currentNode));
+			String closedListHashkey = boardToString(currentNode) ;
 			previousStates.put(closedListHashkey, currentNode);
 			ArrayList<Node> generatedMovesOnStage = currentNode.generateMovement(); 
 			/////
 			System.out.println("generatedMoves array list: \n");
 			for (int i = 0; i < generatedMovesOnStage.size(); i++) {
 				System.out.println(generatedMovesOnStage.get(i).toString());
-				System.out.println("\n\n");
 			}
 			////
-			if(Arrays.deepEquals(currentNode.stage, goalStage.stage)){
+			if(Arrays.deepEquals(currentNode.stage, goalStage.stage)){ //if  started with a wining board
 				System.out.println("moves: "+currentNode.move);
-				return currentNode.move;
+				return currentNode;
 			}
 			int  i=0;
 			for (Node nextMove : generatedMovesOnStage) {
-				if(!openListHash.containsKey(nextMove.stage) && !previousStates.containsKey(nextMove.stage)){
+				openListHashkey = boardToString(nextMove);
+				if(!openListHash.containsKey(openListHashkey) && !previousStates.containsKey(openListHashkey)){
 					if(Arrays.deepEquals(nextMove.stage, goalStage.stage)){
-						return nextMove.move;
+						return nextMove;
 					}
-					openListHashkey = nextMove.stage;
 					openListHash.put(openListHashkey, nextMove);
 					openListQueue.add(nextMove);
 				}
 			}
-//			while(!generatedMovesOnStage.isEmpty() && i < generatedMovesOnStage.size()){
-//				if((openListHash.get(generatedMovesOnStage.get(i).stage) == null) && (previousStates.get(generatedMovesOnStage.get(i).stage) == null)){
-//					if(Arrays.deepEquals(generatedMovesOnStage.get(i).stage, goalStage.stage)){
-//						return generatedMovesOnStage.get(i).move;
-//					}
-//					openListHashkey = currentNode.stage;
-//					openListHash.put(openListHashkey, currentNode);
-//					openListQueue.add(currentNode);
-//				}
-//				i++;
-//			}
-//			if(!openListQueue.isEmpty())
-//				n = openListQueue.remove();
 		}
-		
 		return null;
+	}
+
+	public String boardToString(Node n) {
+		String msg ="";
+		for (int i = 0; i < n.stage.length; i++) {
+			for (int j = 0; j < n.stage[0].length; j++) {
+				msg += n.stage[i][j];
+			}
+		}
+		return msg;
 	}
 }

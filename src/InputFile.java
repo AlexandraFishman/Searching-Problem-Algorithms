@@ -57,10 +57,11 @@ public class InputFile {
 //		n.doubleMoveUp();
 		BFS bfs = new BFS();
 		Node asd = this.endBoard();
-		String s = bfs.BFS_Algorithm(n, asd);
-		System.out.println(s);
-		System.out.println("\n\n\n\nOriginal board:");
-		System.out.println(this.toString()+"\n\n\n\n");
+		Node s = bfs.BFS_Algorithm(n, asd);
+		System.out.println("wining moves: "+s.move);
+		System.out.println("\ncost: "+s.movementCost);
+		System.out.println("\nOriginal board:");
+		System.out.println(this.toString()+"\n");
 	}
 
 	public Node endBoard() {
