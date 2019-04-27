@@ -7,18 +7,20 @@ public class Node {
 	Cell empty1;
 	Cell empty2;
 	int movementCost;
+	int heuristicFunctionValue;
 
-	public Node(){
-		this.move ="";
-		this.stage = new Integer [128][128];
-
-	}
+//	public Node(){
+//		this.move ="";
+//		this.stage = new Integer [128][128];
+//
+//	}
 
 	public Node(Integer [][] board){
 		this.empty1 = new Cell();
 		this.empty2 = new Cell();
 		this.stage = board.clone();
 		this.father = null;
+		this.heuristicFunctionValue = manhattanDistanceSum();
 		boolean foundFirstEmpty = false;
 		for (int i = 0; i < this.stage.length; i++) {
 			for (int j = 0; j < this.stage[0].length; j++) {
@@ -231,8 +233,7 @@ public class Node {
 
 	private Node shiftSingleTile(int directionI, int directionJ, Cell emptyToMove, Cell otherEmpty){
 		if(this.stage[emptyToMove.i+directionI][emptyToMove.j+directionJ] != null){
-			Node currentMove = new Node();
-			currentMove.stage = Utils.deepCopy(this.stage);
+			Node currentMove = new Node(Utils.deepCopy(this.stage));
 			int i = emptyToMove.i;
 			int j = emptyToMove.j;
 			//making move and updating empty cell
@@ -257,6 +258,9 @@ public class Node {
 
 			currentMove.move = singleMovePathString(directionI, directionJ, tmp);
 
+			// update heuristic function value
+			currentMove.heuristicFunctionValue = currentMove.manhattanDistanceSum();
+			
 			return currentMove;
 		}
 		return null;
@@ -265,8 +269,7 @@ public class Node {
 	private Node shiftDoubleTile(int directionI, int directionJ, Cell empty1ToMove, Cell empty2ToMove){
 		if((this.stage[empty1ToMove.i+directionI][empty1ToMove.j+directionJ] != null) &&
 				this.stage[empty2ToMove.i+directionI][empty2ToMove.j+directionJ] != null){
-			Node currentMove = new Node();
-			currentMove.stage = Utils.deepCopy(this.stage);
+			Node currentMove = new Node(Utils.deepCopy(this.stage));
 			//first empty cell move
 			int i = empty1ToMove.i;
 			int j = empty1ToMove.j;
@@ -307,6 +310,9 @@ public class Node {
 
 			currentMove.move += doubleMovePathString(directionI, directionJ, firstCellValue, secondCellValue);
 
+			// update heuristic function value
+			currentMove.heuristicFunctionValue = currentMove.manhattanDistanceSum();
+							
 			return currentMove;
 		}
 		return null;
@@ -391,7 +397,6 @@ public class Node {
 
 		String msg;
 		msg = "move: "+this.move+ "\n";
-
 		return  msg;
 
 	}
@@ -412,7 +417,7 @@ public class Node {
 		}
 		sum*=5;//cost single move
 		if(this.sameColumn() || this.sameRow()){
-			sum -= 10;//estimated savings for double moves
+			sum -= 3;//estimated savings for double moves
 		}
 		return sum;
 	}
