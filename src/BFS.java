@@ -1,17 +1,11 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.LinkedList;
-import java.util.Queue;
 
-public class BFS {
+public class BFS extends frontieerSearch{
 
-	//	HashMap<Integer, Node> openList = new HashMap<Integer, Node>();
-	Queue<Node> openListQueue = new LinkedList();
-	Hashtable<String, Node> previousStates = new Hashtable<>(); //closed-list
-	Hashtable<String, Node> openListHash = new Hashtable<>();
-
+	public BFS(){
+		openListQueue = new LinkedList();
+	}
+	
 	/*
 	 * BFS(Node start, Vector Goals)
 		1. L <- make_queue(start) and make_hash_table
@@ -26,51 +20,4 @@ public class BFS {
 					2. L.insert(g)
 		4. Return false
 	 * */
-
-	public Node BFS_Algorithm(Node startingBoard,Node goalStage){
-		String openListHashkey = boardToString(startingBoard);
-		openListHash.put(openListHashkey,startingBoard);
-		openListQueue.add(startingBoard);
-
-		previousStates = new Hashtable<>();
-		while(!openListQueue.isEmpty()){
-			Node currentNode = openListQueue.remove();
-			openListHash.remove(boardToString(currentNode));
-			String closedListHashkey = boardToString(currentNode) ;
-			previousStates.put(closedListHashkey, currentNode);
-			ArrayList<Node> generatedMovesOnStage = currentNode.generateMovement(); 
-			/////
-			System.out.println("generatedMoves array list: \n");
-			for (int i = 0; i < generatedMovesOnStage.size(); i++) {
-				System.out.println(generatedMovesOnStage.get(i).toString());
-			}
-			////
-			if(Arrays.deepEquals(currentNode.stage, goalStage.stage)){ //if  started with a wining board
-				System.out.println("moves: "+currentNode.move);
-				return currentNode;
-			}
-			int  i=0;
-			for (Node nextMove : generatedMovesOnStage) {
-				openListHashkey = boardToString(nextMove);
-				if(!openListHash.containsKey(openListHashkey) && !previousStates.containsKey(openListHashkey)){
-					if(Arrays.deepEquals(nextMove.stage, goalStage.stage)){
-						return nextMove;
-					}
-					openListHash.put(openListHashkey, nextMove);
-					openListQueue.add(nextMove);
-				}
-			}
-		}
-		return null;
-	}
-
-	public String boardToString(Node n) {
-		String msg ="";
-		for (int i = 0; i < n.stage.length; i++) {
-			for (int j = 0; j < n.stage[0].length; j++) {
-				msg += n.stage[i][j];
-			}
-		}
-		return msg;
-	}
 }

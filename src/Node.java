@@ -277,10 +277,10 @@ public class Node {
 
 			//updating cost
 			if((directionI == 1) || (directionI == -1))
-				currentMove.movementCost += 6 + this.movementCost;
-			if((directionJ == 1) || (directionJ == -1))
 				currentMove.movementCost += 7 + this.movementCost;
-			
+			if((directionJ == 1) || (directionJ == -1))
+				currentMove.movementCost += 6 + this.movementCost;
+
 			//updating empty
 			currentMove.empty1 = new Cell();
 			currentMove.empty1.i = i+directionI;
@@ -289,9 +289,8 @@ public class Node {
 			//updating father ONLY ONCE on empty1 cell update
 			currentMove.father = this;
 
-//			currentMove.move +="-" +singleMovePathString(directionI, directionJ, tmp);
 			int firstCellValue = tmp;
-			
+
 			//second empty cell move
 			int k = empty2ToMove.i;
 			int l = empty2ToMove.j;
@@ -357,7 +356,6 @@ public class Node {
 		return result;
 	}
 
-	
 	private boolean sameColumn() {
 		return ((this.empty1.j == this.empty2.j) && (Math.abs(this.empty1.i - this.empty2.i) == 1));
 	}
@@ -396,5 +394,26 @@ public class Node {
 
 		return  msg;
 
+	}
+
+	public int manhattanDistanceSum() {
+		int row = 0, column = 0;
+		int sum = 0;
+		for (int i = 0; i < stage.length; i++) {
+			for (int j = 0; j < stage[0].length; j++) {
+				if(this.stage[i][j] != null){
+					row = (this.stage[i][j]-1)/stage[0].length;
+					column = (this.stage[i][j]-1)%stage[0].length;
+					int distanceX = Math.abs(i-column);
+					int distanceY = Math.abs(j-row);
+					sum += distanceX + distanceY;
+				}
+			}
+		}
+		sum*=5;//cost single move
+		if(this.sameColumn() || this.sameRow()){
+			sum -= 10;//estimated savings for double moves
+		}
+		return sum;
 	}
 }

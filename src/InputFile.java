@@ -44,20 +44,11 @@ public class InputFile {
 		}
 		
 		Node n = new Node(this.board.clone());
-//		Cell c1 = new Cell();
-//		Cell c2 = new Cell();
-//		n.singleMoveLeft(c1,c2);
-//		n.singleMoveRight(c1,c2);
-//		n.singleMoveDown();
-//		n.singleMoveUp();
-//		
-//		n.doubleMoveLeft();
-//		n.doubleMoveRight();
-//		n.doubleMoveDown();
-//		n.doubleMoveUp();
-		BFS bfs = new BFS();
+//		BFS bfs = new BFS();
+		AStar astr = new AStar();
 		Node asd = this.endBoard();
-		Node s = bfs.BFS_Algorithm(n, asd);
+//		Node s = bfs.searchAlgorithm(n, asd);
+		Node s = astr.searchAlgorithm(n, asd);
 		System.out.println("wining moves: "+s.move);
 		System.out.println("\ncost: "+s.movementCost);
 		System.out.println("\nOriginal board:");
