@@ -435,7 +435,6 @@ public class Node {
 
         final Node other = (Node) obj;
 		
-		
 		for (int i = 0; i < stage.length; i++) {
 			for (int j = 0; j < stage[0].length; j++) {
 				if(this.stage[i][j] != other.stage[i][j])

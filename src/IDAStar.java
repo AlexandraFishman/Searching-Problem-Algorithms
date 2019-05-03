@@ -8,59 +8,53 @@ public class IDAStar extends frontieerSearch{
 		if(start.equals(goals)){
 			return start;
 		}
-		Stack<Node> L = new Stack<>();
-		Hashtable<String, Node> H = new Hashtable<>();
-		Integer t = start.heuristicFunctionValue;
-		while (t != Integer.MAX_VALUE) {
+		Stack<Node> openListStack = new Stack<>();
+		Hashtable<String, Node> openList = new Hashtable<>();
+		Integer threshold = start.heuristicFunctionValue + start.movementCost;
+		while (threshold != Integer.MAX_VALUE) {
 			Integer minF = Integer.MAX_VALUE;
-			L.push(start);
-			H.put(boardToString(start), start);
-			while (!L.isEmpty()) {
-				Node n = L.pop();
+			openListStack.push(start);
+			openList.put(boardToString(start), start);
+			while (!openListStack.isEmpty()) {
+				Node n = openListStack.pop();
 				if(n.isOut){
-					H.remove(n);
+					openList.remove(n);
 				}
 				else{
 					n.isOut = true;
-					L.push(n);
+					openListStack.push(n);
 					ArrayList<Node> generatedMovesOnStage = n.generateMovement();
-					Node gPrev = null;
-					for (Node g : generatedMovesOnStage){
-//					for (Iterator<Node> i = generatedMovesOnStage.iterator(); i.hasNext();){
-//						Node g = (Node)i.next();
-//						if(i.hasNext()){
-							if(g.heuristicFunctionValue > t){
-								minF = Math.min(minF, g.heuristicFunctionValue);
-//								g = (Node)i.next();
+					//					Node gPrev = null;
+					//					for (Node g : generatedMovesOnStage){
+					for (int i = generatedMovesOnStage.size()-1; i >= 0; i--) {
+						Node g = generatedMovesOnStage.get(i);
+						Integer currentNodeStageValue = g.heuristicFunctionValue + g.movementCost;
+						if(currentNodeStageValue > threshold){
+							minF = Math.min(minF, currentNodeStageValue);
+							//continue with next operator
+						}
+						//						if(gPrev != null){
+						if(openList.containsKey(boardToString(g)) && g.isOut){//gPrev.equals(g)&&
+							//continue with next operator
+						}
+						if(openList.containsKey(boardToString(g)) && !g.isOut){//gPrev.equals(g) && 
+							if(g.heuristicFunctionValue > currentNodeStageValue){
+								openListStack.remove(g); //removes ONLY FIRST occurance
+								openList.remove(boardToString(g));
+							}
+							else{
 								//continue with next operator
 							}
-							if(gPrev != null){
-								if(gPrev.equals(g) && H.containsKey(boardToString(g)) && gPrev.isOut){
-//									g = (Node)i.next();
-									//continue with next operator
-								}
-								if(gPrev.equals(g) && H.containsKey(boardToString(g)) && !gPrev.isOut){
-									if(gPrev.heuristicFunctionValue > g.heuristicFunctionValue){
-										L.remove(gPrev); //removes ONLY FIRST occurance
-										H.remove(boardToString(gPrev));
-									}
-									else{
-//										g = (Node)i.next();
-										//continue with next operator
-									}
-								}
-							}
-							if(g.equals(goals)){
-								return g;
-							}
-							L.push(g);
-							H.put(boardToString(g), g);
-							gPrev = g;
 						}
-//					}
+						if(g.equals(goals)){
+							return g;
+						}
+						openListStack.push(g);
+						openList.put(boardToString(g), g);
+					}
 				}
 			}
-			t = minF;
+			threshold = minF;
 		}
 		return null;
 	}
