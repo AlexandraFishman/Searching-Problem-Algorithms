@@ -8,6 +8,7 @@ public class Node {
 	Cell empty2;
 	int movementCost;
 	int heuristicFunctionValue;
+	boolean  isOut = false;
 
 //	public Node(){
 //		this.move ="";
@@ -420,5 +421,27 @@ public class Node {
 			sum -= 3;//estimated savings for double moves
 		}
 		return sum;
+	}
+	
+	@Override
+    public boolean equals(Object obj) {
+		if (obj == null) {
+            return false;
+        }
+
+        if (!Node.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+
+        final Node other = (Node) obj;
+		
+		
+		for (int i = 0; i < stage.length; i++) {
+			for (int j = 0; j < stage[0].length; j++) {
+				if(this.stage[i][j] != other.stage[i][j])
+					return false;
+			}
+		}
+		return true;
 	}
 }

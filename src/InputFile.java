@@ -46,18 +46,21 @@ public class InputFile {
 		Node n = new Node(this.board.clone());
 		BFS bfs = new BFS();
 		AStar astr = new AStar();
+		IDAStar idasrt = new IDAStar();
 		Node asd = this.endBoard();
 		long start = System.nanoTime();
 //		Node s = bfs.searchAlgorithm(n, asd);
-		Node s = astr.searchAlgorithm(n, asd);
+//		Node s = astr.searchAlgorithm(n, asd);
+		Node s = idasrt.ida_star_algorithm(n, asd);
 		long elapsedTime = System.nanoTime() - start;
 		System.out.println(elapsedTime/1e9);
-		System.out.println("wining moves: "+s.move);
-		System.out.println("\ncost: "+s.movementCost);
-		System.out.println("\nOriginal board:");
+		System.out.println("s="+s+"\n");
+//		System.out.println("wining moves: "+s.move);
+//		System.out.println("\ncost: "+s.movementCost);
+//		System.out.println("\nOriginal board:");
 		System.out.println(this.toString()+"\n");
 //		System.out.println("Num:"+bfs.numberOfNodesCreated);
-		System.out.println("Num:"+astr.numberOfNodesCreated);
+//		System.out.println("Num:"+astr.numberOfNodesCreated);
 	}
 
 	public Node endBoard() {
