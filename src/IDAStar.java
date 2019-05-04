@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Iterator;
+import java.util.PriorityQueue;
 import java.util.Stack;
 
 public class IDAStar extends frontieerSearch{
@@ -23,19 +23,19 @@ public class IDAStar extends frontieerSearch{
 				else{
 					n.isVisited = true;
 					openListStack.push(n);
+					PriorityQueue<Node> priorityQueue = new PriorityQueue<Node>(new IDAStarComparator());
 					ArrayList<Node> generatedMovesOnStage = n.generateMovement();
-					for (int i = generatedMovesOnStage.size()-1; i >= 0; i--) {
-						Node g = generatedMovesOnStage.get(i);
-						System.out.println("inside generatedMovesOnStage FOR: "+g.toString()+"\n");
+					priorityQueue.addAll(generatedMovesOnStage);
+					for (Node g : priorityQueue) {
+//						System.out.println("inside generatedMovesOnStage FOR: "+g.toString()+"\n");
 						Integer currentNodeStageValue = g.heuristicFunctionValue + g.movementCost;
 						if(currentNodeStageValue > threshold){
 							minF = Math.min(minF, currentNodeStageValue);
-							continue;
-							//continue with next operator
+							continue; //continue with next operator
 						}
 						Node gPrime = openList.get(boardToString(g));
 						if(gPrime != null && gPrime.isVisited){//gPrev.equals(g)&&
-							continue;//continue with next operator
+							continue; //continue with next operator
 						}
 						if(gPrime != null && !gPrime.isVisited){//gPrev.equals(g) && 
 							if(gPrime.heuristicFunctionValue + gPrime.movementCost > currentNodeStageValue){
@@ -43,8 +43,7 @@ public class IDAStar extends frontieerSearch{
 								openList.remove(boardToString(gPrime));
 							}
 							else{
-								continue;
-								//continue with next operator
+								continue; //continue with next operator
 							}
 						}
 						if(g.equals(goals)){
