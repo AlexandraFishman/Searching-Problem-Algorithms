@@ -8,7 +8,7 @@ public class Node {
 	Cell empty2;
 	int movementCost;
 	int heuristicFunctionValue;
-	boolean  isOut = false;
+	boolean  isVisited = false;
 
 //	public Node(){
 //		this.move ="";
@@ -410,8 +410,8 @@ public class Node {
 				if(this.stage[i][j] != null){
 					row = (this.stage[i][j]-1)/stage[0].length;
 					column = (this.stage[i][j]-1)%stage[0].length;
-					int distanceX = Math.abs(i-column);
-					int distanceY = Math.abs(j-row);
+					int distanceX = Math.abs(j-column);
+					int distanceY = Math.abs(i-row);
 					sum += distanceX + distanceY;
 				}
 			}

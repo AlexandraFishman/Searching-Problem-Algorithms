@@ -50,8 +50,8 @@ public class InputFile {
 		Node asd = this.endBoard();
 		long start = System.nanoTime();
 //		Node s = bfs.searchAlgorithm(n, asd);
-//		Node s = astr.searchAlgorithm(n, asd);
-		Node s = idasrt.ida_star_algorithm(n, asd);
+		Node s = astr.searchAlgorithm(n, asd);
+//		Node s = idasrt.ida_star_algorithm(n, asd);
 		long elapsedTime = System.nanoTime() - start;
 		System.out.println(elapsedTime/1e9);
 		System.out.println("s="+s+"\n");

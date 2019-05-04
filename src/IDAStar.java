@@ -17,32 +17,33 @@ public class IDAStar extends frontieerSearch{
 			openList.put(boardToString(start), start);
 			while (!openListStack.isEmpty()) {
 				Node n = openListStack.pop();
-				if(n.isOut){
-					openList.remove(n);
+				if(n.isVisited){
+					openList.remove(boardToString(n));
 				}
 				else{
-					n.isOut = true;
+					n.isVisited = true;
 					openListStack.push(n);
 					ArrayList<Node> generatedMovesOnStage = n.generateMovement();
-					//					Node gPrev = null;
-					//					for (Node g : generatedMovesOnStage){
 					for (int i = generatedMovesOnStage.size()-1; i >= 0; i--) {
 						Node g = generatedMovesOnStage.get(i);
+						System.out.println("inside generatedMovesOnStage FOR: "+g.toString()+"\n");
 						Integer currentNodeStageValue = g.heuristicFunctionValue + g.movementCost;
 						if(currentNodeStageValue > threshold){
 							minF = Math.min(minF, currentNodeStageValue);
+							continue;
 							//continue with next operator
 						}
-						//						if(gPrev != null){
-						if(openList.containsKey(boardToString(g)) && g.isOut){//gPrev.equals(g)&&
-							//continue with next operator
+						Node gPrime = openList.get(boardToString(g));
+						if(gPrime != null && gPrime.isVisited){//gPrev.equals(g)&&
+							continue;//continue with next operator
 						}
-						if(openList.containsKey(boardToString(g)) && !g.isOut){//gPrev.equals(g) && 
-							if(g.heuristicFunctionValue > currentNodeStageValue){
-								openListStack.remove(g); //removes ONLY FIRST occurance
-								openList.remove(boardToString(g));
+						if(gPrime != null && !gPrime.isVisited){//gPrev.equals(g) && 
+							if(gPrime.heuristicFunctionValue + gPrime.movementCost > currentNodeStageValue){
+								openListStack.remove(gPrime); //removes ONLY FIRST occurance
+								openList.remove(boardToString(gPrime));
 							}
 							else{
+								continue;
 								//continue with next operator
 							}
 						}
