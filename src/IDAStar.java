@@ -3,6 +3,40 @@ import java.util.Hashtable;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
+/*
+ * IDA*(Node start, Vector Goals)
+	1. L <- make_stack and H <- make_hash_table
+	2. t <- h(start)
+	3. While t != Infinity
+		1. minF <- Infinity
+		2. L.insert(start)
+		3. H.insert(start)
+		4. While L is not empty
+			1. n <- L.remove_front()
+			2. If n is marked as “out”
+				1. H.remove(n)
+			2. Else
+				2. mark n as “out” and L.insert(n)
+				3. For each allowed operator g on n
+					1. If f(g) > t
+						1. minF <- min(minF, f(g))
+						2. continue with the next operator
+					2. If H contains g’=g and g’ marked “out”
+						1. continue with the next operator
+					3. If H contains g’=g and g’ not marked “out”
+						1. If f(g’)>f(g)
+							1. remove g’ from L and H
+						2. Else
+							1. continue with the next operator
+
+					4. If goal(g) then return path(g) //all the “out” nodes in L
+					5. L.insert(g)
+					6. H.insert(g)
+
+	5. t <- minF
+4. Return false
+ * */
+
 public class IDAStar extends frontieerSearch{
 	public Node ida_star_algorithm(Node start, Node goals) {
 		if(start.equals(goals)){
@@ -58,38 +92,4 @@ public class IDAStar extends frontieerSearch{
 		}
 		return null;
 	}
-
-	/*
-	 * IDA*(Node start, Vector Goals)
-		1. L <- make_stack and H <- make_hash_table-------------------
-		2. t <- h(start)----------------------------
-		3. While t != Infinity-----------------------
-			1. minF <- Infinity----------------------
-			2. L.insert(start)-------------------
-			3. H.insert(start)-----------------
-			4. While L is not empty--------
-				1. n <- L.remove_front()----------
-				2. If n is marked as “out”--------
-					1. H.remove(n)---------
-				2. Else-------------------------
-					2. mark n as “out” and L.insert(n)------------
-					3. For each allowed operator g on n-----------------
-						1. If f(g) > t---------------------------
-							1. minF <- min(minF, f(g))--------------------
-							2. continue with the next operator
-						2. If H contains g’=g and g’ marked “out”-----------------??????????
-							1. continue with the next operator
-						3. If H contains g’=g and g’ not marked “out”----------------????????
-							1. If f(g’)>f(g)-----------------------
-								1. remove g’ from L and H-----------------
-							2. Else
-								1. continue with the next operator
-
-						4. If goal(g) then return path(g) //all the “out” nodes in L----------
-						5. L.insert(g)-------
-						6. H.insert(g)----------
-
-		5. t <- minF
-	4. Return false
-	 * */
 }
