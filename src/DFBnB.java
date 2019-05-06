@@ -7,7 +7,6 @@ import java.util.Stack;
 public class DFBnB extends frontieerSearch{
 	public String dfbnb_Algorithm(Node start,Node goals) {
 		String result = "";
-		String bestResult = "";
 		if(start.equals(goals)){
 			return result;
 		}
@@ -20,7 +19,7 @@ public class DFBnB extends frontieerSearch{
 		long startTime = System.nanoTime();
 		long elapsedTime = 0;
 		
-		while(!openListStack.isEmpty() && elapsedTime/1e9 < 0.5){
+		while(!openListStack.isEmpty() && elapsedTime/1e9 < 1){
 			Node  n = openListStack.pop();
 			if(n.isVisited){
 				openList.remove(boardToString(n));
@@ -52,11 +51,12 @@ public class DFBnB extends frontieerSearch{
 						else{
 							openListStack.remove(gPrime);
 							openList.remove(boardToString(gPrime));
+							result = gPrime.move;
 						}
 					}
 					else if(g.equals(goals)){ // if we reached here, f(g) < t
 						threshold = currentNodeStageValue;
-						result += g.move;
+						result = g.move;
 //						for (Node res : openListStack) {
 //							if(res.isVisited){
 //								result += res.move;
