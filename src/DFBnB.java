@@ -7,6 +7,7 @@ import java.util.Stack;
 public class DFBnB extends frontieerSearch{
 	public String dfbnb_Algorithm(Node start,Node goals) {
 		String result = "";
+		String bestResult = "";
 		if(start.equals(goals)){
 			return result;
 		}
@@ -15,7 +16,11 @@ public class DFBnB extends frontieerSearch{
 		openListStack.push(start);
 		Hashtable<String, Node> openList = new Hashtable<>();
 		openList.put(boardToString(start), start);
-		while(!openListStack.isEmpty()){
+		
+		long startTime = System.nanoTime();
+		long elapsedTime = 0;
+		
+		while(!openListStack.isEmpty() && elapsedTime/1e9 < 0.5){
 			Node  n = openListStack.pop();
 			if(n.isVisited){
 				openList.remove(boardToString(n));
@@ -26,7 +31,9 @@ public class DFBnB extends frontieerSearch{
 				PriorityQueue<Node> priorityQueue = new PriorityQueue<Node>(new AStarComparator());
 				ArrayList<Node> generatedMovesOnStage = n.generateMovement();
 				priorityQueue.addAll(generatedMovesOnStage);
-				for (Node g : priorityQueue) {
+				PriorityQueue<Node> iterablePriorityQueue = new PriorityQueue<Node>(new AStarComparator());
+				iterablePriorityQueue.addAll(priorityQueue);
+				for (Node g : iterablePriorityQueue) {
 					Node gPrime = openList.get(boardToString(g));
 					Integer currentNodeStageValue = g.heuristicFunctionValue + g.movementCost;
 					if(currentNodeStageValue > threshold){
@@ -49,14 +56,16 @@ public class DFBnB extends frontieerSearch{
 					}
 					else if(g.equals(goals)){ // if we reached here, f(g) < t
 						threshold = currentNodeStageValue;
-						for (Node res : openListStack) {
-							if(res.isVisited){
-								result += res.move;
-							}
-						}
+						result += g.move;
+//						for (Node res : openListStack) {
+//							if(res.isVisited){
+//								result += res.move;
+//							}
+//						}
 						//remove g and all the nodes after it from N
 						List<Node> forRemoval = removeUnwantedElemnts(generatedMovesOnStage, g);
 						priorityQueue.removeAll(forRemoval);
+//						return result;
 						//removing all the nodes "at once"
 					}
 					PriorityQueue<Node> reversePriorityQueue = new PriorityQueue<Node>(new IDAStarComparator());
@@ -67,7 +76,7 @@ public class DFBnB extends frontieerSearch{
 					}
 				}
 			}
-
+			 elapsedTime = System.nanoTime() - startTime;
 		}
 		return result;
 	}
