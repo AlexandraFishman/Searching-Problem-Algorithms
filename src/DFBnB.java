@@ -19,7 +19,7 @@ public class DFBnB extends frontieerSearch{
 		long startTime = System.nanoTime();
 		long elapsedTime = 0;
 		
-		while(!openListStack.isEmpty() && elapsedTime/1e9 < 1){
+		while(!openListStack.isEmpty() && elapsedTime/1e9 < 2){
 			Node  n = openListStack.pop();
 			if(n.isVisited){
 				openList.remove(boardToString(n));
@@ -33,12 +33,18 @@ public class DFBnB extends frontieerSearch{
 				PriorityQueue<Node> iterablePriorityQueue = new PriorityQueue<Node>(new AStarComparator());
 				iterablePriorityQueue.addAll(priorityQueue);
 				for (Node g : iterablePriorityQueue) {
+//					System.out.println("g="+g.move+"\n");
+//					System.out.println("g.cost="+g.movementCost);
 					Node gPrime = openList.get(boardToString(g));
+//					if(gPrime != null)
+//						System.out.println("gPrime="+gPrime.move+"\n");
+
 					Integer currentNodeStageValue = g.heuristicFunctionValue + g.movementCost;
 					if(currentNodeStageValue > threshold){
 						//remove g and all the nodes after it from N
 						List<Node> forRemoval = removeUnwantedElemnts(generatedMovesOnStage, g);
 						priorityQueue.removeAll(forRemoval);
+						break;
 						//removing all the nodes "at once"
 					}
 					else if(gPrime != null && gPrime.isVisited){
@@ -51,7 +57,7 @@ public class DFBnB extends frontieerSearch{
 						else{
 							openListStack.remove(gPrime);
 							openList.remove(boardToString(gPrime));
-							result = gPrime.move;
+//							result = gPrime.move;
 						}
 					}
 					else if(g.equals(goals)){ // if we reached here, f(g) < t
