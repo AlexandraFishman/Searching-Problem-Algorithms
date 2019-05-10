@@ -398,6 +398,12 @@ public class Node {
 
 		String msg;
 		msg = "move: "+this.move+ "\n";
+		for(int i=0; i<this.stage.length; i++){
+			for(int j=0; j<this.stage[0].length; j++){
+				msg += this.stage[i][j]+" ";
+			}
+			msg += "\n";
+		}
 		return  msg;
 
 	}
