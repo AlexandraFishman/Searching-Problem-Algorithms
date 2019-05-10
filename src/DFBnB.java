@@ -63,15 +63,9 @@ public class DFBnB extends frontieerSearch{
 					else if(g.equals(goals)){ // if we reached here, f(g) < t
 						threshold = currentNodeStageValue;
 						result = g.move;
-//						for (Node res : openListStack) {
-//							if(res.isVisited){
-//								result += res.move;
-//							}
-//						}
 						//remove g and all the nodes after it from N
 						List<Node> forRemoval = removeUnwantedElemnts(generatedMovesOnStage, g);
 						priorityQueue.removeAll(forRemoval);
-//						return result;
 						//removing all the nodes "at once"
 					}
 					PriorityQueue<Node> reversePriorityQueue = new PriorityQueue<Node>(new IDAStarComparator());

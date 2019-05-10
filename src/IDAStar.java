@@ -3,7 +3,7 @@ import java.util.Hashtable;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
-/*
+/**
  * IDA*(Node start, Vector Goals)
 	1. L <- make_stack and H <- make_hash_table
 	2. t <- h(start)
@@ -61,17 +61,16 @@ public class IDAStar extends frontieerSearch{
 					ArrayList<Node> generatedMovesOnStage = n.generateMovement();
 					priorityQueue.addAll(generatedMovesOnStage);
 					for (Node g : priorityQueue) {
-//						System.out.println("inside generatedMovesOnStage FOR: "+g.toString()+"\n");
 						Integer currentNodeStageValue = g.heuristicFunctionValue + g.movementCost;
 						if(currentNodeStageValue > threshold){
 							minF = Math.min(minF, currentNodeStageValue);
 							continue; //continue with next operator
 						}
 						Node gPrime = openList.get(boardToString(g));
-						if(gPrime != null && gPrime.isVisited){//gPrev.equals(g)&&
+						if(gPrime != null && gPrime.isVisited){
 							continue; //continue with next operator
 						}
-						if(gPrime != null && !gPrime.isVisited){//gPrev.equals(g) && 
+						if(gPrime != null && !gPrime.isVisited){ 
 							if(gPrime.heuristicFunctionValue + gPrime.movementCost > currentNodeStageValue){
 								openListStack.remove(gPrime); //removes ONLY FIRST occurance
 								openList.remove(boardToString(gPrime));
