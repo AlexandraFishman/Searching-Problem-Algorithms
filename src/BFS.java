@@ -6,7 +6,7 @@ public class BFS extends frontieerSearch{
 		openListQueue = new LinkedList();
 	}
 	
-	/*
+	/**
 	 * BFS(Node start, Vector Goals)
 		1. L <- make_queue(start) and make_hash_table
 		2. C <- make_hash_table

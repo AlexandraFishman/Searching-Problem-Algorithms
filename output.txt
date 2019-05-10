@@ -1,1 +1,4 @@
-retert00
+8U
+need to put here: numberOfNodesCreated
+5
+0.001797927

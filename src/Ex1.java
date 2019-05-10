@@ -14,18 +14,27 @@ public class Ex1 {
 			algorithm = new BFS();
 			answer = ((frontieerSearch) algorithm).searchAlgorithm(startingBoard, endBoard);
 		}
-		else if(f.algorithmToUse.equals("A*"))
+		else if(f.algorithmToUse.equals("A*")){
 			algorithm = new AStar();
-		else if(f.algorithmToUse.equals("IDA*"))
+			answer = ((frontieerSearch) algorithm).searchAlgorithm(startingBoard, endBoard);
+		}
+		else if(f.algorithmToUse.equals("IDA*")){
 			algorithm = new IDAStar();
-		else if(f.algorithmToUse.equals("DFBnB"))
+			answer = ((IDAStar) algorithm).ida_star_algorithm(startingBoard, endBoard);
+		}
+		else if(f.algorithmToUse.equals("DFBnB")){
 			algorithm = new DFBnB();
-		else if(f.algorithmToUse.equals("DFID"))
+			answer = ((DFBnB) algorithm).dfbnb_Algorithm(startingBoard, endBoard);
+		}
+		else if(f.algorithmToUse.equals("DFID")){
 			algorithm = new DFID();
+			answer = ((DFID) algorithm).dfid(startingBoard, endBoard);
+		}
+		
 		long elapsedTime = System.nanoTime() - start;
 		
 		if(answer != null){
-			OutputFile o = new OutputFile(answer.move, "retert", Integer.toString(answer.movementCost), Long.toString((long)(elapsedTime/1e9)));
+			OutputFile o = new OutputFile(answer.move, "need to put here: numberOfNodesCreated", Integer.toString(answer.movementCost), Double.toString(elapsedTime/1e9));
 		}
 		
 	}

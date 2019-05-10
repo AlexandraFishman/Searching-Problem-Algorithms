@@ -5,8 +5,8 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 public class DFBnB extends frontieerSearch{
-	public String dfbnb_Algorithm(Node start,Node goals) {
-		String result = "";
+	public Node dfbnb_Algorithm(Node start,Node goals) {
+		Node result = null;
 		if(start.equals(goals)){
 			return result;
 		}
@@ -57,7 +57,7 @@ public class DFBnB extends frontieerSearch{
 					}
 					else if(g.equals(goals)){ // if we reached here, f(g) < t
 						threshold = currentNodeStageValue;
-						result = g.move;
+						result = g;
 						//remove g and all the nodes after it from N
 						List<Node> forRemoval = removeUnwantedElemnts(generatedMovesOnStage, g);
 						priorityQueue.removeAll(forRemoval);
