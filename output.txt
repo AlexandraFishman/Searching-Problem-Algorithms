@@ -1,4 +1,1 @@
-6L-7U
-Num: 1
-Cost: 10
-0.002 seconds
+retert00

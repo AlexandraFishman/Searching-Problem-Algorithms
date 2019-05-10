@@ -33,11 +33,7 @@ public class DFBnB extends frontieerSearch{
 				PriorityQueue<Node> iterablePriorityQueue = new PriorityQueue<Node>(new AStarComparator());
 				iterablePriorityQueue.addAll(priorityQueue);
 				for (Node g : iterablePriorityQueue) {
-//					System.out.println("g="+g.move+"\n");
-//					System.out.println("g.cost="+g.movementCost);
 					Node gPrime = openList.get(boardToString(g));
-//					if(gPrime != null)
-//						System.out.println("gPrime="+gPrime.move+"\n");
 
 					Integer currentNodeStageValue = g.heuristicFunctionValue + g.movementCost;
 					if(currentNodeStageValue > threshold){
@@ -57,7 +53,6 @@ public class DFBnB extends frontieerSearch{
 						else{
 							openListStack.remove(gPrime);
 							openList.remove(boardToString(gPrime));
-//							result = gPrime.move;
 						}
 					}
 					else if(g.equals(goals)){ // if we reached here, f(g) < t

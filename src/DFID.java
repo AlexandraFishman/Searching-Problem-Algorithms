@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class DFID extends frontieerSearch {
 
@@ -20,7 +19,6 @@ public class DFID extends frontieerSearch {
 		Node n = null;
 		while (!maxDepth)
 		{
-			//System.out.println(results);
 			maxDepth = true;
 			n = dls(start, goal, depth);
 			depth += 1;
@@ -32,7 +30,6 @@ public class DFID extends frontieerSearch {
 	{
 		openList.put(boardToString(node), node);
 		node.isVisited = true;
-		//System.out.println(depth);
 		if(depth == 7)
 			return null;
 		if(depth == 0)
@@ -52,7 +49,6 @@ public class DFID extends frontieerSearch {
 			for(Node g : generatedMoves)
 			{
 				if(!openList.contains(boardToString(g)) || !g.isVisited){
-					System.out.println(g.toString()+"\n");
 					Node n = dls(g, goal, depth-1);
 					if(n != null && n.equals(goal)){
 						return n;
