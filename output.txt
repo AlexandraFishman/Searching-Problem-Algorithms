@@ -1,4 +1,4 @@
-8U
-need to put here: numberOfNodesCreated
-5
-0.001797927
+6L-7U
+Num: 0
+Cost: 10
+0.003 seconds

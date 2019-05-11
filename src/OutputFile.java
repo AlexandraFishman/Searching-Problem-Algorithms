@@ -1,6 +1,7 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 public class OutputFile {
 
@@ -8,9 +9,12 @@ public class OutputFile {
 		try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter("output.txt"));
 			writer.write(winingMoves+"\n");
-			writer.write(numberOfNodesCreated+"\n");
-			writer.write(cost+"\n");
-			writer.write(time+"\n");
+			writer.write("Num: "+numberOfNodesCreated+"\n");
+			writer.write("Cost: "+cost+"\n");
+			if(!time.isEmpty()){
+				DecimalFormat df = new DecimalFormat("#.###");
+				writer.write(df.format(Double.parseDouble(time))+" seconds");
+			}
 			writer.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

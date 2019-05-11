@@ -8,7 +8,7 @@ public abstract class frontieerSearch {
 	Queue<Node> openListQueue;
 	Hashtable<String, Node> previousStates = new Hashtable<>(); //closed-list
 	Hashtable<String, Node> openListHash = new Hashtable<>();
-	int numberOfNodesCreated = -1;
+	int numberOfNodesCreated = 0;
 
 	public Node searchAlgorithm(Node startingBoard,Node goalStage){
 		String openListHashkey = boardToString(startingBoard);

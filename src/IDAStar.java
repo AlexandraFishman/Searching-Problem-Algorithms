@@ -38,6 +38,9 @@ import java.util.Stack;
  * */
 
 public class IDAStar extends frontieerSearch{
+	
+	int numberOfNodesCreated = 0;
+	
 	public Node ida_star_algorithm(Node start, Node goals) {
 		if(start.equals(goals)){
 			return start;
@@ -53,6 +56,7 @@ public class IDAStar extends frontieerSearch{
 				Node n = openListStack.pop();
 				if(n.isVisited){
 					openList.remove(boardToString(n));
+					numberOfNodesCreated++;
 				}
 				else{
 					n.isVisited = true;
@@ -74,6 +78,7 @@ public class IDAStar extends frontieerSearch{
 							if(gPrime.heuristicFunctionValue + gPrime.movementCost > currentNodeStageValue){
 								openListStack.remove(gPrime); //removes ONLY FIRST occurance
 								openList.remove(boardToString(gPrime));
+								numberOfNodesCreated++;
 							}
 							else{
 								continue; //continue with next operator
