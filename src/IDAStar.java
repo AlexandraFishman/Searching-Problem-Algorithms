@@ -49,14 +49,15 @@ public class IDAStar{
 		Hashtable<String, Node> openList = new Hashtable<>();
 		Integer threshold = start.heuristicFunctionValue + start.movementCost;
 		while (threshold != Integer.MAX_VALUE) {
+			
 			Integer minF = Integer.MAX_VALUE;
 			openListStack.push(start);
 			openList.put(start.boardToString(), start);
 			while (!openListStack.isEmpty()) {
 				Node n = openListStack.pop();
+				numberOfNodesCreated++;
 				if(n.isVisited){
 					openList.remove(n.boardToString());
-					numberOfNodesCreated++;
 				}
 				else{
 					n.isVisited = true;
@@ -78,6 +79,7 @@ public class IDAStar{
 							if(gPrime.heuristicFunctionValue + gPrime.movementCost > currentNodeStageValue){
 								openListStack.remove(gPrime); //removes ONLY FIRST occurance
 								openList.remove(gPrime.boardToString());
+								System.out.println(numberOfNodesCreated);
 								numberOfNodesCreated++;
 							}
 							else{

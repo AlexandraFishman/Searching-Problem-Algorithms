@@ -5,6 +5,9 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 public class DFBnB{
+	
+	int numberOfNodesCreated = 0;
+	
 	public Node dfbnb_Algorithm(Node start,Node goals) {
 		Node result = null;
 		if(start.equals(goals)){
@@ -19,8 +22,9 @@ public class DFBnB{
 		long startTime = System.nanoTime();
 		long elapsedTime = 0;
 		
-		while(!openListStack.isEmpty() && elapsedTime/1e9 < 2){
+		while(!openListStack.isEmpty() && elapsedTime/1e9 < 2){ //DFBnB is time limited - gave him 2 seconds  to search
 			Node  n = openListStack.pop();
+
 			if(n.isVisited){
 				openList.remove(n.boardToString());
 			}
@@ -34,6 +38,7 @@ public class DFBnB{
 				iterablePriorityQueue.addAll(priorityQueue);
 				for (Node g : iterablePriorityQueue) {
 					Node gPrime = openList.get(g.boardToString());
+					numberOfNodesCreated++;
 
 					Integer currentNodeStageValue = g.heuristicFunctionValue + g.movementCost;
 					if(currentNodeStageValue > threshold){

@@ -29,6 +29,7 @@ public class Ex1 {
 		else if(f.algorithmToUse.equals("DFBnB")){
 			algorithm = new DFBnB();
 			answer = ((DFBnB) algorithm).dfbnb_Algorithm(startingBoard, endBoard);
+			num = ((DFBnB) algorithm).numberOfNodesCreated;
 		}
 		else if(f.algorithmToUse.equals("DFID")){
 			algorithm = new DFID();
@@ -43,6 +44,12 @@ public class Ex1 {
 				o = new OutputFile(answer.move, Integer.toString(num), Integer.toString(answer.movementCost), Double.toString(elapsedTime/1e9));
 			else
 				o = new OutputFile(answer.move, Integer.toString(num), Integer.toString(answer.movementCost), "");
+		}
+		else{
+			if(f.printTime.equals("with time"))
+				o = new OutputFile("no path", "", "", Double.toString(elapsedTime/1e9));
+			else
+				o = new OutputFile("no path", "", "", "");
 		}
 		
 	}

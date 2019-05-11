@@ -1,4 +1,4 @@
 6L-7U
-Num: 8
+Num: 10
 Cost: 10
 0.004 seconds
