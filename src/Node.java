@@ -451,4 +451,14 @@ public class Node {
 		}
 		return true;
 	}
+	
+	public String boardToString() {
+		String msg ="";
+		for (int i = 0; i < this.stage.length; i++) {
+			for (int j = 0; j < this.stage[0].length; j++) {
+				msg += this.stage[i][j];
+			}
+		}
+		return msg;
+	}
 }

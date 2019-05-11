@@ -11,7 +11,7 @@ public abstract class frontieerSearch {
 	int numberOfNodesCreated = 0;
 
 	public Node searchAlgorithm(Node startingBoard,Node goalStage){
-		String openListHashkey = boardToString(startingBoard);
+		String openListHashkey = startingBoard.boardToString();
 		openListHash.put(openListHashkey,startingBoard);
 		openListQueue.add(startingBoard);
 
@@ -19,8 +19,8 @@ public abstract class frontieerSearch {
 		while(!openListQueue.isEmpty()){
 			Node currentNode = openListQueue.remove();
 			numberOfNodesCreated++;
-			openListHash.remove(boardToString(currentNode));
-			String closedListHashkey = boardToString(currentNode) ;
+			openListHash.remove(currentNode.boardToString());
+			String closedListHashkey = currentNode.boardToString() ;
 			previousStates.put(closedListHashkey, currentNode);
 			ArrayList<Node> generatedMovesOnStage = currentNode.generateMovement(); 
 			/////
@@ -34,7 +34,7 @@ public abstract class frontieerSearch {
 				return currentNode;
 			}
 			for (Node nextMove : generatedMovesOnStage) {
-				openListHashkey = boardToString(nextMove);
+				openListHashkey = nextMove.boardToString();
 				if(!openListHash.containsKey(openListHashkey) && !previousStates.containsKey(openListHashkey)){
 					if(Arrays.deepEquals(nextMove.stage, goalStage.stage)){
 						return nextMove;
@@ -47,13 +47,13 @@ public abstract class frontieerSearch {
 		return null;
 	}
 
-	public String boardToString(Node n) {
-		String msg ="";
-		for (int i = 0; i < n.stage.length; i++) {
-			for (int j = 0; j < n.stage[0].length; j++) {
-				msg += n.stage[i][j];
-			}
-		}
-		return msg;
-	}
+//	public String boardToString(Node n) {
+//		String msg ="";
+//		for (int i = 0; i < n.stage.length; i++) {
+//			for (int j = 0; j < n.stage[0].length; j++) {
+//				msg += n.stage[i][j];
+//			}
+//		}
+//		return msg;
+//	}
 }

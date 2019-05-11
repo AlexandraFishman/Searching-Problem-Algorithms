@@ -33,6 +33,7 @@ public class Ex1 {
 		else if(f.algorithmToUse.equals("DFID")){
 			algorithm = new DFID();
 			answer = ((DFID) algorithm).dfid(startingBoard, endBoard);
+			num = ((DFID) algorithm).numberOfNodesCreated;
 		}
 		
 		long elapsedTime = System.nanoTime() - start;

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Stack;
 
-public class DFBnB extends frontieerSearch{
+public class DFBnB{
 	public Node dfbnb_Algorithm(Node start,Node goals) {
 		Node result = null;
 		if(start.equals(goals)){
@@ -14,7 +14,7 @@ public class DFBnB extends frontieerSearch{
 		Stack<Node> openListStack = new Stack<>();
 		openListStack.push(start);
 		Hashtable<String, Node> openList = new Hashtable<>();
-		openList.put(boardToString(start), start);
+		openList.put(start.boardToString(), start);
 		
 		long startTime = System.nanoTime();
 		long elapsedTime = 0;
@@ -22,7 +22,7 @@ public class DFBnB extends frontieerSearch{
 		while(!openListStack.isEmpty() && elapsedTime/1e9 < 2){
 			Node  n = openListStack.pop();
 			if(n.isVisited){
-				openList.remove(boardToString(n));
+				openList.remove(n.boardToString());
 			}
 			else{
 				n.isVisited = true;
@@ -33,7 +33,7 @@ public class DFBnB extends frontieerSearch{
 				PriorityQueue<Node> iterablePriorityQueue = new PriorityQueue<Node>(new AStarComparator());
 				iterablePriorityQueue.addAll(priorityQueue);
 				for (Node g : iterablePriorityQueue) {
-					Node gPrime = openList.get(boardToString(g));
+					Node gPrime = openList.get(g.boardToString());
 
 					Integer currentNodeStageValue = g.heuristicFunctionValue + g.movementCost;
 					if(currentNodeStageValue > threshold){
@@ -52,7 +52,7 @@ public class DFBnB extends frontieerSearch{
 						}
 						else{
 							openListStack.remove(gPrime);
-							openList.remove(boardToString(gPrime));
+							openList.remove(gPrime.boardToString());
 						}
 					}
 					else if(g.equals(goals)){ // if we reached here, f(g) < t
@@ -67,7 +67,7 @@ public class DFBnB extends frontieerSearch{
 					reversePriorityQueue.addAll(priorityQueue);
 					openListStack.addAll(reversePriorityQueue);
 					for (Node r : reversePriorityQueue) {
-						openList.put(boardToString(r), r);
+						openList.put(r.boardToString(), r);
 					}
 				}
 			}

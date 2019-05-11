@@ -1,16 +1,15 @@
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
 
-public class DFID extends frontieerSearch {
+public class DFID{
 
 	/**
 	 * 
 	 */
 
 	boolean maxDepth = false;
-	List<String> results = new ArrayList<String>();
-	Hashtable<String, Node> openList = new Hashtable<>();
+	Hashtable<String, Node> pathUpToMe = new Hashtable<>();
+	int numberOfNodesCreated = 0;
 
 
 	public Node dfid(Node start, Node goal)
@@ -28,18 +27,20 @@ public class DFID extends frontieerSearch {
 
 	public Node dls(Node node, Node goal, int depth)
 	{
-		openList.put(boardToString(node), node);
-		node.isVisited = true;
-		if(depth == 7)
+		pathUpToMe.put(node.boardToString(), node);
+		if(depth == 7){
+			pathUpToMe.remove(node.boardToString());
+			maxDepth = true;
 			return null;
+		}
 		if(depth == 0)
 		{
+			pathUpToMe.remove(node.boardToString());
 			maxDepth = false;
 			return null;
 		}
 		else if (node.equals(goal)) 
 		{
-			//set maxDepth to false if the node has children
 			maxDepth = true;
 			return node;
 		}
@@ -48,14 +49,26 @@ public class DFID extends frontieerSearch {
 			ArrayList<Node> generatedMoves = node.generateMovement();
 			for(Node g : generatedMoves)
 			{
-				if(!openList.contains(boardToString(g)) || !g.isVisited){
-					Node n = dls(g, goal, depth-1);
-					if(n != null && n.equals(goal)){
-						return n;
+				Node gPrime = pathUpToMe.get(g.boardToString());
+				if(!g.equals(goal)){
+					if(gPrime == null){  
+						Node n = dls(g, goal, depth-1);
+						System.out.println("g="+g.move);
+						numberOfNodesCreated++;
+						System.out.println("num="+numberOfNodesCreated);
+						if(n != null){ //it's always null or goal node
+							maxDepth = true;
+							return n;
+						}
 					}
+				}
+				else{
+					maxDepth = true;
+					return g;
 				}
 			}
 		}
+		pathUpToMe.remove(node.boardToString());
 		return null;
 	}
 }

@@ -37,7 +37,7 @@ import java.util.Stack;
 4. Return false
  * */
 
-public class IDAStar extends frontieerSearch{
+public class IDAStar{
 	
 	int numberOfNodesCreated = 0;
 	
@@ -51,11 +51,11 @@ public class IDAStar extends frontieerSearch{
 		while (threshold != Integer.MAX_VALUE) {
 			Integer minF = Integer.MAX_VALUE;
 			openListStack.push(start);
-			openList.put(boardToString(start), start);
+			openList.put(start.boardToString(), start);
 			while (!openListStack.isEmpty()) {
 				Node n = openListStack.pop();
 				if(n.isVisited){
-					openList.remove(boardToString(n));
+					openList.remove(n.boardToString());
 					numberOfNodesCreated++;
 				}
 				else{
@@ -70,14 +70,14 @@ public class IDAStar extends frontieerSearch{
 							minF = Math.min(minF, currentNodeStageValue);
 							continue; //continue with next operator
 						}
-						Node gPrime = openList.get(boardToString(g));
+						Node gPrime = openList.get(g.boardToString());
 						if(gPrime != null && gPrime.isVisited){
 							continue; //continue with next operator
 						}
 						if(gPrime != null && !gPrime.isVisited){ 
 							if(gPrime.heuristicFunctionValue + gPrime.movementCost > currentNodeStageValue){
 								openListStack.remove(gPrime); //removes ONLY FIRST occurance
-								openList.remove(boardToString(gPrime));
+								openList.remove(gPrime.boardToString());
 								numberOfNodesCreated++;
 							}
 							else{
@@ -88,7 +88,7 @@ public class IDAStar extends frontieerSearch{
 							return g;
 						}
 						openListStack.push(g);
-						openList.put(boardToString(g), g);
+						openList.put(g.boardToString(), g);
 					}
 				}
 			}
