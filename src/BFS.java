@@ -3,7 +3,7 @@ import java.util.LinkedList;
 public class BFS extends frontieerSearch{
 
 	public BFS(){
-		openListQueue = new LinkedList();
+		openListQueue = new LinkedList<Node>();
 	}
 	
 	/**

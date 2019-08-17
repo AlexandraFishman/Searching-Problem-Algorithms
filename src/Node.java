@@ -424,7 +424,7 @@ public class Node {
 		}
 		if(sum == 0)
 			return 0;
-		sum*=5;//cost single move
+//		sum*=5;//cost single move
 		if(this.sameColumn() || this.sameRow()){
 			sum -= 3;//estimated savings for double moves
 		}

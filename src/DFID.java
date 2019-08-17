@@ -3,13 +3,9 @@ import java.util.Hashtable;
 
 public class DFID{
 
-	/**
-	 * 
-	 */
-
 	boolean maxDepth = false;
 	Hashtable<String, Node> pathUpToMe = new Hashtable<>();
-	int numberOfNodesCreated = 0;
+	int numberOfNodesCreated = 1;
 
 
 	public Node dfid(Node start, Node goal)
@@ -50,13 +46,11 @@ public class DFID{
 			for(Node g : generatedMoves)
 			{
 				Node gPrime = pathUpToMe.get(g.boardToString());
+				numberOfNodesCreated++;
 				if(!g.equals(goal)){
 					if(gPrime == null){  
 						Node n = dls(g, goal, depth-1);
-						System.out.println("g="+g.move);
-						numberOfNodesCreated++;
-						System.out.println("num="+numberOfNodesCreated);
-						if(n != null){ //it's always null or goal node
+						if(n != null){ 
 							maxDepth = true;
 							return n;
 						}
