@@ -74,24 +74,24 @@ public class InputFile {
 			System.err.format("IOException: %s%n", e);
 		}
 
-		//		Node n = new Node(this.board.clone());
-		//		BFS bfs = new BFS();
+				Node n = new Node(this.board.clone());
+				BFS bfs = new BFS();
 		//		AStar astr = new AStar();
 		//		IDAStar idasrt = new IDAStar();
 		//		DFID dfid = new DFID();
-		//		Node asd = this.endBoard();
+				Node asd = this.endBoard();
 		//		long start = System.nanoTime();
-		//		Node s = bfs.searchAlgorithm(n, asd);
+				Node s = bfs.searchAlgorithm(n, asd);
 		//		Node s = astr.searchAlgorithm(n, asd);
 		//		Node s = idasrt.ida_star_algorithm(n, asd);
 		//		Node s = dfid.dfid(n, asd);
 		//		long elapsedTime = System.nanoTime() - start;
 		//		System.out.println(elapsedTime/1e9);
-		//		System.out.println("s="+s+"\n");
+				System.out.println("s="+s+"\n");
 		//		System.out.println("wining moves: "+s.move);
 		//		System.out.println("\ncost: "+s.movementCost);
-		//		System.out.println("\nOriginal board:");
-		//		System.out.println(this.toString()+"\n");
+				System.out.println("\nOriginal board:");
+				System.out.println(this.toString()+"\n");
 		//		System.out.println("Num:"+bfs.numberOfNodesCreated);
 		//		System.out.println("Num:"+astr.numberOfNodesCreated);
 		//		DFBnB dfbnb = new DFBnB();
@@ -113,7 +113,7 @@ public class InputFile {
 			for (int j = 0; j < width; j++) {
 				n.stage[i][j] = d;
 				this.greenTileNumber.add(d);
-				if(d > (length*width-2)){
+				if(d > (length*width-1)){
 					n.stage[i][j] = null;
 				}
 				d++;

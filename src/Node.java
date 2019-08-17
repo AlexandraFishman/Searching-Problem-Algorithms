@@ -4,8 +4,7 @@ public class Node {
 	Integer [][] stage;
 	Node father;
 	String move;
-	Cell empty1;
-	Cell empty2;
+	Cell emptyCell;
 	int movementCost;
 	int heuristicFunctionValue;
 	boolean  isVisited = false;
@@ -17,25 +16,15 @@ public class Node {
 //	}
 
 	public Node(Integer [][] board){
-		this.empty1 = new Cell();
-		this.empty2 = new Cell();
+		this.emptyCell = new Cell();
 		this.stage = board.clone();
 		this.father = null;
 		this.heuristicFunctionValue = manhattanDistanceSum();
-		boolean foundFirstEmpty = false;
 		for (int i = 0; i < this.stage.length; i++) {
 			for (int j = 0; j < this.stage[0].length; j++) {
 				if(board[i][j] == null){
-					if(!foundFirstEmpty){
-						this.empty1.i = i;
-						this.empty1.j = j;
-						foundFirstEmpty = true;
-					}
-					else{
-						this.empty2.i = i;
-						this.empty2.j =j;
-					}
-					//board[i][j] = 0;
+						this.emptyCell.i = i;
+						this.emptyCell.j = j;
 				}
 			}
 		}
@@ -45,69 +34,35 @@ public class Node {
 
 	public ArrayList<Node> generateMovement(){
 		ArrayList<Node> possibleMoves = new ArrayList<Node>();
-		ArrayList<Node> currentMove = new ArrayList<Node>();
-
-		//double moves
-		currentMove = this.doubleMoveLeft();
-		if(!currentMove.isEmpty())
-			possibleMoves.addAll(currentMove);
-		currentMove = this.doubleMoveUp();
-		if(!currentMove.isEmpty())
-			possibleMoves.addAll(currentMove);
-		currentMove = this.doubleMoveRight();
-		if(!currentMove.isEmpty())
-			possibleMoves.addAll(currentMove);
-		currentMove = this.doubleMoveDown();
-		if(!currentMove.isEmpty())
-			possibleMoves.addAll(currentMove);
-
-		Cell firstEmpty, secondEmpty;
-		if(this.empty1.i < this.empty2.i){ 
-			firstEmpty = this.empty1;
-			secondEmpty = this.empty2;
-		}
-		else if(this.empty1.i > this.empty2.i){
-			firstEmpty = this.empty2;
-			secondEmpty = this.empty1;
-		}
-		else if(this.empty1.j < this.empty2.j){ //same row
-			firstEmpty = this.empty1;
-			secondEmpty = this.empty2;
-		}
-		else{
-			firstEmpty = this.empty2;
-			secondEmpty = this.empty1;
-		}
-		//single moves for first  empty cell
-		generateSingleMoves(possibleMoves, firstEmpty, secondEmpty);
-
-		generateSingleMoves(possibleMoves, secondEmpty, firstEmpty);
+		
+		//single moves for the empty cell
+		generateSingleMoves(possibleMoves);
 
 		return  possibleMoves;
 	}
 
-	private void generateSingleMoves(ArrayList<Node> possibleMoves, Cell firstEmpty, Cell secondEmpty) {
+	private void generateSingleMoves(ArrayList<Node> possibleMoves){
 		ArrayList<Node> currentMoves;
-		currentMoves = this.singleMoveLeft(firstEmpty, secondEmpty);
+		currentMoves = this.singleMoveLeft();
 		if(!currentMoves.isEmpty())
 			possibleMoves.addAll(currentMoves);
-		currentMoves = this.singleMoveUp(firstEmpty, secondEmpty);
+		currentMoves = this.singleMoveUp();
 		if(!currentMoves.isEmpty())
 			possibleMoves.addAll(currentMoves);
-		currentMoves = this.singleMoveRight(firstEmpty, secondEmpty);
+		currentMoves = this.singleMoveRight();
 		if(!currentMoves.isEmpty())
 			possibleMoves.addAll(currentMoves);
-		currentMoves = this.singleMoveDown(firstEmpty, secondEmpty);
+		currentMoves = this.singleMoveDown();
 		if(!currentMoves.isEmpty())
 			possibleMoves.addAll(currentMoves);
 	}
 
 	//returns node by one left  movement
-	private ArrayList<Node> singleMoveLeft(Cell empty1, Cell empty2){
+	private ArrayList<Node> singleMoveLeft(){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if(empty1.j+1  < this.stage[0].length){
-			Node a = shiftSingleTile(0,1,empty1,empty2);
+		if(this.emptyCell.j+1  < this.stage[0].length){
+			Node a = shiftSingleTile(0,1);
 			if(a!=null) result.add(a);
 		}
 
@@ -119,11 +74,11 @@ public class Node {
 		return  result;
 	}
 
-	private ArrayList<Node> singleMoveRight(Cell empty1, Cell empty2){
+	private ArrayList<Node> singleMoveRight(){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if(empty1.j-1  >= 0){
-			Node a = shiftSingleTile(0,-1,empty1,empty2);
+		if(this.emptyCell.j-1  >= 0){
+			Node a = shiftSingleTile(0,-1);
 			if(a!=null) result.add(a);
 		}
 
@@ -135,11 +90,11 @@ public class Node {
 		return  result;
 	}
 
-	private ArrayList<Node> singleMoveDown(Cell empty1, Cell empty2){
+	private ArrayList<Node> singleMoveDown(){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if(empty1.i-1  >= 0){
-			Node a = shiftSingleTile(-1,0,empty1,empty2);
+		if(this.emptyCell.i-1  >= 0){
+			Node a = shiftSingleTile(-1,0);
 			if(a!=null) result.add(a);
 		}
 
@@ -151,11 +106,11 @@ public class Node {
 		return  result;
 	}
 
-	private ArrayList<Node> singleMoveUp(Cell empty1, Cell empty2){
+	private ArrayList<Node> singleMoveUp(){
 		ArrayList<Node> result = new ArrayList<>();
 
-		if(empty1.i+1  < this.stage.length){
-			Node a = shiftSingleTile(1,0,empty1,empty2);
+		if(this.emptyCell.i+1  < this.stage.length){
+			Node a = shiftSingleTile(1,0);
 			if(a!=null) result.add(a);
 		}
 
@@ -167,76 +122,11 @@ public class Node {
 		return  result;
 	}
 
-	private ArrayList<Node> doubleMoveLeft(){
-		ArrayList<Node> result = new ArrayList<>();
-
-		if((this.empty1.i+1  < this.stage.length) && (this.empty2.i+1  < this.stage.length) && this.sameColumn()){
-			Node a = shiftDoubleTile(1, 0, this.empty1, this.empty2);
-			if(a!=null) result.add(a);
-		}
-
-		//		String msg = "\nDouble Left:\n";
-		//		for (int i = 0; i < result.size(); i++) {
-		//			msg += result.get(i).toString() +"    \n "; //+i
-		//		}
-		//		System.out.println(msg);
-
-		return result;
-	}
-
-	private ArrayList<Node> doubleMoveRight(){
-		ArrayList<Node> result = new ArrayList<>();
-
-		if((this.empty1.j-1  >= 0) && (this.empty2.j-1 >= 0) && this.sameColumn()){
-			Node a = shiftDoubleTile(0,-1,this.empty1,this.empty2);
-			if(a!=null) result.add(a);
-		}
-
-		//		String msg = "\nDouble Right:\n";
-		//		for (int i = 0; i < result.size(); i++) {
-		//			msg += result.get(i).toString() +"    \n "+i;
-		//		}
-		//		System.out.println(msg);
-		return  result;
-	}
-
-	private ArrayList<Node> doubleMoveDown(){
-		ArrayList<Node> result = new ArrayList<>();
-
-		if((this.empty1.i-1  >= 0) && (this.empty2.i-1  >= 0) && this.sameRow()){
-			Node a = shiftDoubleTile(-1,0,this.empty1,this.empty2);
-			if(a!=null) result.add(a);
-		}
-
-		//		String msg = "\nDouble Down:\n";
-		//		for (int i = 0; i < result.size(); i++) {
-		//			msg += result.get(i).toString() +"    \n "+i;
-		//		}
-		//		System.out.println(msg);
-		return  result;
-	}
-
-	private ArrayList<Node> doubleMoveUp(){
-		ArrayList<Node> result = new ArrayList<>();
-
-		if((this.empty1.i+1  < this.stage.length) && (this.empty2.i+1  < this.stage.length) && this.sameRow()){
-			Node a = shiftDoubleTile(1,0,this.empty1,this.empty2);
-			if(a!=null) result.add(a);
-		}
-
-		//		String msg = "\nDouble up:\n";
-		//		for (int i = 0; i < result.size(); i++) {
-		//			msg += result.get(i).toString() +"    \n "; //+i
-		//		}
-		//		System.out.println(msg);
-		return  result;
-	}
-
-	private Node shiftSingleTile(int directionI, int directionJ, Cell emptyToMove, Cell otherEmpty){
-		if(this.stage[emptyToMove.i+directionI][emptyToMove.j+directionJ] != null){
+	private Node shiftSingleTile(int directionI, int directionJ){
+		if(this.stage[this.emptyCell.i+directionI][this.emptyCell.j+directionJ] != null){
 			Node currentMove = new Node(Utils.deepCopy(this.stage));
-			int i = emptyToMove.i;
-			int j = emptyToMove.j;
+			int i = this.emptyCell.i;
+			int j = this.emptyCell.j;
 			//making move and updating empty cell
 			int tmp = currentMove.stage[i+directionI][j+directionJ];
 			currentMove.stage[i][j] = tmp;
@@ -246,13 +136,9 @@ public class Node {
 			currentMove.movementCost += 5 + this.movementCost;
 
 			//updating empty
-			currentMove.empty1 = new Cell();
-			currentMove.empty1.i = i+directionI;
-			currentMove.empty1.j = j+directionJ;
-
-			currentMove.empty2 = new Cell();
-			currentMove.empty2.i = otherEmpty.i;
-			currentMove.empty2.j = otherEmpty.j;
+			currentMove.emptyCell = new Cell();
+			currentMove.emptyCell.i = i+directionI;
+			currentMove.emptyCell.j = j+directionJ;
 
 			//updating father
 			currentMove.father = this;
@@ -266,58 +152,6 @@ public class Node {
 		}
 		return null;
 	} 
-
-	private Node shiftDoubleTile(int directionI, int directionJ, Cell empty1ToMove, Cell empty2ToMove){
-		if((this.stage[empty1ToMove.i+directionI][empty1ToMove.j+directionJ] != null) &&
-				this.stage[empty2ToMove.i+directionI][empty2ToMove.j+directionJ] != null){
-			Node currentMove = new Node(Utils.deepCopy(this.stage));
-			//first empty cell move
-			int i = empty1ToMove.i;
-			int j = empty1ToMove.j;
-			//making move and updating empty1 cell
-			int tmp = currentMove.stage[i+directionI][j+directionJ];
-			currentMove.stage[i][j] = tmp;
-			currentMove.stage[i+directionI][j+directionJ] = null;
-
-			//updating cost
-			if((directionI == 1) || (directionI == -1))
-				currentMove.movementCost += 7 + this.movementCost;
-			if((directionJ == 1) || (directionJ == -1))
-				currentMove.movementCost += 6 + this.movementCost;
-
-			//updating empty
-			currentMove.empty1 = new Cell();
-			currentMove.empty1.i = i+directionI;
-			currentMove.empty1.j = j+directionJ;
-
-			//updating father ONLY ONCE on empty1 cell update
-			currentMove.father = this;
-
-			int firstCellValue = tmp;
-
-			//second empty cell move
-			int k = empty2ToMove.i;
-			int l = empty2ToMove.j;
-			//making move and updating empty1 cell
-			tmp = currentMove.stage[k+directionI][l+directionJ];
-			int secondCellValue = tmp;
-			currentMove.stage[k][l] = tmp;
-			currentMove.stage[k+directionI][l+directionJ] = null;
-
-			//updating empty
-			currentMove.empty2 = new Cell();
-			currentMove.empty2.i = k+directionI;
-			currentMove.empty2.j = l+directionJ;
-
-			currentMove.move += doubleMovePathString(directionI, directionJ, firstCellValue, secondCellValue);
-
-			// update heuristic function value
-			currentMove.heuristicFunctionValue = currentMove.manhattanDistanceSum();
-							
-			return currentMove;
-		}
-		return null;
-	}
 
 	private String singleMovePathString(int directionI, int directionJ, Integer value) {
 		String result ="";
@@ -339,36 +173,6 @@ public class Node {
 			result += "R";
 		}
 		return result;
-	}
-
-	private String doubleMovePathString(int directionI, int directionJ, Integer value1, Integer value2) {
-		String result ="";
-		if(move!= null && move.length() > 0){
-			result += move+"-"+value1.toString()+"&"+value2.toString();
-		}
-		else 
-			result = value1.toString()+"&"+value2.toString();
-		if(directionI == 1){
-			result += "U";
-		}
-		else if(directionI == -1){
-			result += "D";
-		}
-		else if(directionJ == 1){
-			result += "L";
-		}
-		else if(directionJ == -1){
-			result += "R";
-		}
-		return result;
-	}
-
-	private boolean sameColumn() {
-		return ((this.empty1.j == this.empty2.j) && (Math.abs(this.empty1.i - this.empty2.i) == 1));
-	}
-
-	private boolean sameRow() {
-		return ((this.empty1.i == this.empty2.i) && (Math.abs(this.empty1.j - this.empty2.j) == 1));
 	}
 
 	@Override
@@ -425,9 +229,6 @@ public class Node {
 		if(sum == 0)
 			return 0;
 //		sum*=5;//cost single move
-		if(this.sameColumn() || this.sameRow()){
-			sum -= 3;//estimated savings for double moves
-		}
 		return sum;
 	}
 	
