@@ -24,10 +24,10 @@ public abstract class frontieerSearch {
 			previousStates.put(closedListHashkey, currentNode);
 			ArrayList<Node> generatedMovesOnStage = currentNode.generateMovement(); 
 			/////
-//			System.out.println("generatedMoves array list: \n");
-//			for (int i = 0; i < generatedMovesOnStage.size(); i++) {
-//				System.out.println(generatedMovesOnStage.get(i).toString());
-//			}
+			System.out.println("generatedMoves array list: \n");
+			for (int i = 0; i < generatedMovesOnStage.size(); i++) {
+				System.out.println(generatedMovesOnStage.get(i).toString());
+			}
 			////
 			if(Arrays.deepEquals(currentNode.stage, goalStage.stage)){ //if  started with a wining board
 //				System.out.println("moves: "+currentNode.move);
