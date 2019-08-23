@@ -11,11 +11,11 @@ public class Node {
 	boolean  isVisited = false;
 	Directions direction;
 
-//	public Node(){
-//		this.move ="";
-//		this.stage = new Integer [128][128];
-//
-//	}
+	//	public Node(){
+	//		this.move ="";
+	//		this.stage = new Integer [128][128];
+	//
+	//	}
 
 	public Node(Integer [][] board){
 		this.emptyCell = new Cell();
@@ -26,8 +26,8 @@ public class Node {
 		for (int i = 0; i < this.stage.length; i++) {
 			for (int j = 0; j < this.stage[0].length; j++) {
 				if(board[i][j] == null){
-						this.emptyCell.i = i;
-						this.emptyCell.j = j;
+					this.emptyCell.i = i;
+					this.emptyCell.j = j;
 				}
 			}
 		}
@@ -37,7 +37,7 @@ public class Node {
 
 	public ArrayList<Node> generateMovement(){
 		ArrayList<Node> possibleMoves = new ArrayList<Node>();
-		
+
 		//single moves for the empty cell
 		generateSingleMoves(possibleMoves);
 
@@ -46,23 +46,57 @@ public class Node {
 
 	private void generateSingleMoves(ArrayList<Node> possibleMoves){
 		ArrayList<Node> currentMoves;
+
 		currentMoves = this.singleMoveLeft();
-		if(!currentMoves.isEmpty())
+		if (this.direction == Directions.right && currentMoves.size() > 0){
+			currentMoves.remove(0);
+		}
+		
+		if(!currentMoves.isEmpty()){
 			possibleMoves.addAll(currentMoves);
+		}
+
+
 		currentMoves = this.singleMoveUp();
-		if(!currentMoves.isEmpty())
+		if (this.direction == Directions.down && currentMoves.size() > 0){
+			currentMoves.remove(0);
+		}
+		
+		if(!currentMoves.isEmpty()){
 			possibleMoves.addAll(currentMoves);
+		}
+
 		currentMoves = this.singleMoveRight();
-		if(!currentMoves.isEmpty())
+		if (this.direction == Directions.left && currentMoves.size() > 0){
+			currentMoves.remove(0);
+		}
+		
+		if(!currentMoves.isEmpty()){
 			possibleMoves.addAll(currentMoves);
+		}
+
 		currentMoves = this.singleMoveDown();
-		if(!currentMoves.isEmpty())
+		if (this.direction == Directions.up && currentMoves.size() > 0){
+			currentMoves.remove(0);
+		}
+		
+		if(!currentMoves.isEmpty()){
 			possibleMoves.addAll(currentMoves);
+		}
+
 	}
 
 	//returns node by one left  movement
 	private ArrayList<Node> singleMoveLeft(){
 		ArrayList<Node> result = new ArrayList<>();
+
+		//		if (this.father == null)
+		//			return result;
+		//
+		//		if (this.father.direction == Directions.right) {
+		////			System.out.println(this.father);
+		//			return result;
+		//		}
 
 		if(this.emptyCell.j+1  < this.stage[0].length){
 			Node a = shiftSingleTile(0,1);
@@ -72,17 +106,30 @@ public class Node {
 			}
 		}
 
-//				String msg = "singleLeft:\n";
-//				for (int i = 0; i < result.size(); i++) {
-//					msg += result.get(i).toString() +"    \n "+i;
-//				}
-//				System.out.println(msg);
-				
+		//				String msg = "singleLeft:\n";
+		//				for (int i = 0; i < result.size(); i++) {
+		//					msg += result.get(i).toString() +"    \n "+i;
+		//				}
+		//				System.out.println(msg);
+
 		return  result;
 	}
 
 	private ArrayList<Node> singleMoveRight(){
 		ArrayList<Node> result = new ArrayList<>();
+
+		//		if (this.father == null)
+		//			return result;
+		//
+		//		if (this.father.direction == Directions.left) {
+		////			System.out.println(this.father);
+		//			return result;
+		//		}
+
+		//		if (this.father != null && this.father.direction != Directions.left) {
+		//			System.out.println(this.father);
+		//			return result;
+		//		}
 
 		if(this.emptyCell.j-1  >= 0){
 			Node a = shiftSingleTile(0,-1);
@@ -92,17 +139,22 @@ public class Node {
 			}
 		}
 
-//				String msg = "\nSingle right:\n";
-//				for (int i = 0; i < result.size(); i++) {
-//					msg += result.get(i).toString() +"    \n "+i;
-//				}
-//				System.out.println(msg);
-				
+		//				String msg = "\nSingle right:\n";
+		//				for (int i = 0; i < result.size(); i++) {
+		//					msg += result.get(i).toString() +"    \n "+i;
+		//				}
+		//				System.out.println(msg);
+
 		return  result;
 	}
 
 	private ArrayList<Node> singleMoveDown(){
 		ArrayList<Node> result = new ArrayList<>();
+
+		//		if (this.father != null && this.father.direction != Directions.up) {
+		//			System.out.println(this.father);
+		//			return result;
+		//		}
 
 		if(this.emptyCell.i-1  >= 0){
 			Node a = shiftSingleTile(-1,0);
@@ -112,17 +164,22 @@ public class Node {
 			}
 		}
 
-//				String msg = "\nSingle down:\n";
-//				for (int i = 0; i < result.size(); i++) {
-//					msg += result.get(i).toString() +"    \n "+i;
-//				}
-//				System.out.println(msg);
-				
+		//				String msg = "\nSingle down:\n";
+		//				for (int i = 0; i < result.size(); i++) {
+		//					msg += result.get(i).toString() +"    \n "+i;
+		//				}
+		//				System.out.println(msg);
+
 		return  result;
 	}
 
 	private ArrayList<Node> singleMoveUp(){
 		ArrayList<Node> result = new ArrayList<>();
+
+		//		if (this.father != null && this.father.direction != Directions.down) {
+		//			System.out.println(this.father);
+		//			return result;
+		//		}
 
 		if(this.emptyCell.i+1  < this.stage.length){
 			Node a = shiftSingleTile(1,0);
@@ -132,19 +189,19 @@ public class Node {
 			}
 		}
 
-//				String msg = "\nSingle up:\n";
-//				for (int i = 0; i < result.size(); i++) {
-//					msg += result.get(i).toString() +"    \n "; //+i
-//				}
-//				System.out.println(msg);
-				
+		//				String msg = "\nSingle up:\n";
+		//				for (int i = 0; i < result.size(); i++) {
+		//					msg += result.get(i).toString() +"    \n "; //+i
+		//				}
+		//				System.out.println(msg);
+
 		return  result;
 	}
 
 	private Node shiftSingleTile(int directionI, int directionJ){
 		int i = this.emptyCell.i;
 		int j = this.emptyCell.j;
-	
+
 		if(Board.blackTileNumber.contains(stage[i][j])){
 			return null;
 		}
@@ -156,7 +213,7 @@ public class Node {
 			currentMove.stage[i][j] = tmp;
 			currentMove.stage[i+directionI][j+directionJ] = null;
 
-			
+
 			//updating cost
 			//if tile is red add 30
 			//if tile is black cant move
@@ -164,7 +221,7 @@ public class Node {
 			if(Board.redTileNumber.contains(currentMove.stage[i][j])){
 				currentMove.movementCost += 30 + this.movementCost;
 			}
-				
+
 			if (Board.greenTileNumber.contains(currentMove.stage[i][j])) {
 				currentMove.movementCost += 1 + this.movementCost;
 			}
@@ -183,7 +240,7 @@ public class Node {
 
 			// update heuristic function value
 			currentMove.heuristicFunctionValue = currentMove.manhattanDistanceSum();
-			
+
 			return currentMove;
 		}
 		return null;
@@ -264,22 +321,22 @@ public class Node {
 		}
 		if(sum == 0)
 			return 0;
-//		sum*=5;//cost single move
+		//		sum*=5;//cost single move
 		return sum;
 	}
-	
+
 	@Override
-    public boolean equals(Object obj) {
+	public boolean equals(Object obj) {
 		if (obj == null) {
-            return false;
-        }
+			return false;
+		}
 
-        if (!Node.class.isAssignableFrom(obj.getClass())) {
-            return false;
-        }
+		if (!Node.class.isAssignableFrom(obj.getClass())) {
+			return false;
+		}
 
-        final Node other = (Node) obj;
-		
+		final Node other = (Node) obj;
+
 		for (int i = 0; i < stage.length; i++) {
 			for (int j = 0; j < stage[0].length; j++) {
 				if(this.stage[i][j] != other.stage[i][j])
@@ -288,7 +345,7 @@ public class Node {
 		}
 		return true;
 	}
-	
+
 	public String boardToString() {
 		String msg ="";
 		for (int i = 0; i < this.stage.length; i++) {

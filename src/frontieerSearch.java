@@ -18,11 +18,12 @@ public abstract class frontieerSearch {
 		previousStates = new Hashtable<>();
 		while(!openListQueue.isEmpty()){
 			Node currentNode = openListQueue.remove();
-			numberOfNodesCreated++;
+//			numberOfNodesCreated++;
 			openListHash.remove(currentNode.boardToString());
 			String closedListHashkey = currentNode.boardToString() ;
 			previousStates.put(closedListHashkey, currentNode);
 			ArrayList<Node> generatedMovesOnStage = currentNode.generateMovement(); 
+			numberOfNodesCreated += generatedMovesOnStage.size();
 			/////
 			System.out.println("generatedMoves array list: \n");
 			for (int i = 0; i < generatedMovesOnStage.size(); i++) {

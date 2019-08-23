@@ -12,7 +12,6 @@ public class InputFile {
 	int columns;
 	Board board;
 	
-
 	InputFile(){
 		try (BufferedReader br = Files.newBufferedReader(Paths.get("input.txt"))) {
 
