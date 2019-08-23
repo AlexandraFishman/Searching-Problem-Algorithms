@@ -11,12 +11,6 @@ public class Node {
 	boolean  isVisited = false;
 	Directions direction;
 
-	//	public Node(){
-	//		this.move ="";
-	//		this.stage = new Integer [128][128];
-	//
-	//	}
-
 	public Node(Integer [][] board){
 		this.emptyCell = new Cell();
 		this.stage = board.clone();
@@ -90,14 +84,6 @@ public class Node {
 	private ArrayList<Node> singleMoveLeft(){
 		ArrayList<Node> result = new ArrayList<>();
 
-		//		if (this.father == null)
-		//			return result;
-		//
-		//		if (this.father.direction == Directions.right) {
-		////			System.out.println(this.father);
-		//			return result;
-		//		}
-
 		if(this.emptyCell.j+1  < this.stage[0].length){
 			Node a = shiftSingleTile(0,1);
 			if(a!=null){
@@ -106,30 +92,11 @@ public class Node {
 			}
 		}
 
-		//				String msg = "singleLeft:\n";
-		//				for (int i = 0; i < result.size(); i++) {
-		//					msg += result.get(i).toString() +"    \n "+i;
-		//				}
-		//				System.out.println(msg);
-
 		return  result;
 	}
 
 	private ArrayList<Node> singleMoveRight(){
 		ArrayList<Node> result = new ArrayList<>();
-
-		//		if (this.father == null)
-		//			return result;
-		//
-		//		if (this.father.direction == Directions.left) {
-		////			System.out.println(this.father);
-		//			return result;
-		//		}
-
-		//		if (this.father != null && this.father.direction != Directions.left) {
-		//			System.out.println(this.father);
-		//			return result;
-		//		}
 
 		if(this.emptyCell.j-1  >= 0){
 			Node a = shiftSingleTile(0,-1);
@@ -138,23 +105,11 @@ public class Node {
 				result.add(a);
 			}
 		}
-
-		//				String msg = "\nSingle right:\n";
-		//				for (int i = 0; i < result.size(); i++) {
-		//					msg += result.get(i).toString() +"    \n "+i;
-		//				}
-		//				System.out.println(msg);
-
 		return  result;
 	}
 
 	private ArrayList<Node> singleMoveDown(){
 		ArrayList<Node> result = new ArrayList<>();
-
-		//		if (this.father != null && this.father.direction != Directions.up) {
-		//			System.out.println(this.father);
-		//			return result;
-		//		}
 
 		if(this.emptyCell.i-1  >= 0){
 			Node a = shiftSingleTile(-1,0);
@@ -163,23 +118,11 @@ public class Node {
 				result.add(a);
 			}
 		}
-
-		//				String msg = "\nSingle down:\n";
-		//				for (int i = 0; i < result.size(); i++) {
-		//					msg += result.get(i).toString() +"    \n "+i;
-		//				}
-		//				System.out.println(msg);
-
 		return  result;
 	}
 
 	private ArrayList<Node> singleMoveUp(){
 		ArrayList<Node> result = new ArrayList<>();
-
-		//		if (this.father != null && this.father.direction != Directions.down) {
-		//			System.out.println(this.father);
-		//			return result;
-		//		}
 
 		if(this.emptyCell.i+1  < this.stage.length){
 			Node a = shiftSingleTile(1,0);
@@ -188,13 +131,6 @@ public class Node {
 				result.add(a);
 			}
 		}
-
-		//				String msg = "\nSingle up:\n";
-		//				for (int i = 0; i < result.size(); i++) {
-		//					msg += result.get(i).toString() +"    \n "; //+i
-		//				}
-		//				System.out.println(msg);
-
 		return  result;
 	}
 
@@ -216,7 +152,7 @@ public class Node {
 
 			//updating cost
 			//if tile is red add 30
-			//if tile is black cant move
+			//if tile is black - it can't move
 			//else 1
 			if(Board.redTileNumber.contains(currentMove.stage[i][j])){
 				currentMove.movementCost += 30 + this.movementCost;
@@ -270,28 +206,6 @@ public class Node {
 
 	@Override
 	public String toString(){
-		//		String msg;
-		//		msg = "cost: "+this.movementCost+"\n"+ "move: "+this.move+ "\nfather: \n";
-		//		for(int i=0; i<this.father.stage.length; i++){
-		//			for(int j=0; j<this.father.stage[0].length; j++){
-		//				msg += this.father.stage[i][j]+" ";
-		//			}
-		//			msg += "\n";
-		//		}
-		//		msg += "empty1= "+this.father.empty1.toString();
-		//		msg += "empty2= "+this.father.empty2.toString();
-		//
-		//		msg += "current board: \n";
-		//		for(int i=0; i<this.stage.length; i++){
-		//			for(int j=0; j<this.stage[0].length; j++){
-		//				msg += this.stage[i][j]+" ";
-		//			}
-		//			msg += "\n";
-		//		}
-		//		msg += "empty1= "+this.empty1.toString();
-		//		msg += "empty2= "+this.empty2.toString();
-		//		return  msg;
-
 
 		String msg;
 		msg = "move: "+this.move+ "\n";

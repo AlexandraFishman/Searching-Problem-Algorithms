@@ -28,6 +28,7 @@ public abstract class frontieerSearch {
 			System.out.println("generatedMoves array list: \n");
 			for (int i = 0; i < generatedMovesOnStage.size(); i++) {
 				System.out.println(generatedMovesOnStage.get(i).toString());
+				System.out.println(generatedMovesOnStage.get(i).movementCost);
 			}
 			////
 			if(Arrays.deepEquals(currentNode.stage, goalStage.stage)){ //if  started with a wining board

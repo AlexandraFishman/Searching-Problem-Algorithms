@@ -13,7 +13,8 @@ public class Ex1 {
         long start = System.nanoTime();
 		//do factory here for algorithms in inputFile
         if(!f.checkForImpositionedBlackTiles()){
-        	o = new OutputFile("no path", "", "", "");
+        	o = new OutputFile("no path", "1", "", "");
+        	return;
         }
         else if(f.algorithmToUse.equals("BFS")){
 			algorithm = new BFS();
