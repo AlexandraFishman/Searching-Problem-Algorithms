@@ -6,10 +6,12 @@ public class DFID{
 	boolean maxDepth = false;
 	Hashtable<String, Node> pathUpToMe = new Hashtable<>();
 	int numberOfNodesCreated = 1;
+	Boolean openListFlag = false;
 
 
-	public Node dfid(Node start, Node goal)
+	public Node dfid(Node start, Node goal, Boolean printOpenListFlag)
 	{
+		this.openListFlag = printOpenListFlag;
 		int depth = 0;
 		Node n = null;
 		while (!maxDepth)
@@ -43,6 +45,14 @@ public class DFID{
 		else 
 		{
 			ArrayList<Node> generatedMoves = node.generateMovement();
+			if(this.openListFlag){
+				//						System.out.println("generatedMoves array list: \n");
+				System.out.println("=====================================");
+				for (Node n : generatedMoves) {
+					System.out.println(n.toString());
+				}
+				System.out.println("=====================================");
+			}
 			for(Node g : generatedMoves)
 			{
 				Node gPrime = pathUpToMe.get(g.boardToString());

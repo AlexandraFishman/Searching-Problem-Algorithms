@@ -38,7 +38,7 @@ public class Ex1 {
 		}
 		else if(f.algorithmToUse.equals("DFID")){
 			algorithm = new DFID();
-			answer = ((DFID) algorithm).dfid(startingBoard, endBoard);
+			answer = ((DFID) algorithm).dfid(startingBoard, endBoard, f.printOpenList);
 			num = ((DFID) algorithm).numberOfNodesCreated;
 		}
 		

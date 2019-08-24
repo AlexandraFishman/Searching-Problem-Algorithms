@@ -22,7 +22,7 @@ public class DFBnB{
 		long startTime = System.nanoTime();
 		long elapsedTime = 0;
 		
-		while(!openListStack.isEmpty() && elapsedTime/1e9 < 2){ //DFBnB is time limited - gave him 2 seconds  to search
+		while(!openListStack.isEmpty() ){//&& elapsedTime/1e9 < 2){ //DFBnB is time limited - gave him 2 seconds  to search
 			Node  n = openListStack.pop();
 
 			if(n.isVisited){
@@ -70,39 +70,30 @@ public class DFBnB{
 						numberOfNodesCreated++; //to update the goal node on counter
 						//removing all the nodes "at once"
 					}
-					numberOfNodesCreated += priorityQueue.size();
-					PriorityQueue<Node> reversePriorityQueue = new PriorityQueue<Node>(new IDAStarComparator());
-					reversePriorityQueue.addAll(priorityQueue);
-					openListStack.addAll(reversePriorityQueue);
-					for (Node r : reversePriorityQueue) {
-						if(!r.isVisited)
-							openList.put(r.boardToString(), r);
-					}
 				}
-			/////
+				numberOfNodesCreated += priorityQueue.size();
+				PriorityQueue<Node> reversePriorityQueue = new PriorityQueue<Node>(new IDAStarComparator());
+				reversePriorityQueue.addAll(priorityQueue);
+//				openListStack.addAll(reversePriorityQueue);
+				int x = reversePriorityQueue.size();
+				for (int i = 0 ; i < x ; i++) {
+					Node r = reversePriorityQueue.poll();
+					openListStack.add(r);
+					openList.put(r.boardToString(), r);
+				}
+				/////
 				if(printOpenListFlag){
-//					System.out.println("generatedMoves array list: \n");
-					for (int i = 0; i < generatedMovesOnStage.size(); i++) {
-						System.out.print(generatedMovesOnStage.get(i).toString());
-						System.out.print("heuristicFunctionValue = ");
-						System.out.println(generatedMovesOnStage.get(i).heuristicFunctionValue + "\n");
+					System.out.println("=====================================");
+					for (Node node : openListStack) {
+						System.out.print(node.toString());
 					}
+					System.out.println("=====================================");
 				}					
 				////
 			}
 			 elapsedTime = System.nanoTime() - startTime;
 		}
 		return result;
-	}
-	
-	private void checkForSimilarBoardInAnotherNode(Hashtable<String, Node> openList, Node n) {
-		if(openList.containsKey(n.boardToString())){
-			openList.get(n.boardToString()).isVisited = true;
-		}
-	}
-
-	private boolean containsBoard(Hashtable<String, Node> openList, Node n) {
-		return openList.containsKey(n.boardToString());
 	}
 
 	private List<Node> removeUnwantedElemnts(ArrayList<Node> generatedMovesOnStage, Node g) {

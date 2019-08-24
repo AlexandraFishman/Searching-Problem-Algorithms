@@ -218,6 +218,7 @@ public class Node {
 			}
 			msg += "\n";
 		}
+		msg+= "\n";
 		return  msg;
 
 	}
