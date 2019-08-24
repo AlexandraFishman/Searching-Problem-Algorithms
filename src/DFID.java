@@ -24,7 +24,7 @@ public class DFID{
 	public Node dls(Node node, Node goal, int depth)
 	{
 		pathUpToMe.put(node.boardToString(), node);
-		if(depth == 7){
+		if(depth == 100){
 			pathUpToMe.remove(node.boardToString());
 			maxDepth = true;
 			return null;

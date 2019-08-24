@@ -18,22 +18,22 @@ public class Ex1 {
         }
         else if(f.algorithmToUse.equals("BFS")){
 			algorithm = new BFS();
-			answer = ((frontieerSearch) algorithm).searchAlgorithm(startingBoard, endBoard);
+			answer = ((frontieerSearch) algorithm).searchAlgorithm(startingBoard, endBoard, f.printOpenList);
 			num = ((frontieerSearch) algorithm).numberOfNodesCreated;
 		}
 		else if(f.algorithmToUse.equals("A*")){
 			algorithm = new AStar();
-			answer = ((frontieerSearch) algorithm).searchAlgorithm(startingBoard, endBoard);
+			answer = ((frontieerSearch) algorithm).searchAlgorithm(startingBoard, endBoard, f.printOpenList);
 			num = ((frontieerSearch) algorithm).numberOfNodesCreated;
 		}
 		else if(f.algorithmToUse.equals("IDA*")){
 			algorithm = new IDAStar();
-			answer = ((IDAStar) algorithm).ida_star_algorithm(startingBoard, endBoard);
+			answer = ((IDAStar) algorithm).ida_star_algorithm(startingBoard, endBoard, f.printOpenList);
 			num = ((IDAStar) algorithm).numberOfNodesCreated;
 		}
 		else if(f.algorithmToUse.equals("DFBnB")){
 			algorithm = new DFBnB();
-			answer = ((DFBnB) algorithm).dfbnb_Algorithm(startingBoard, endBoard);
+			answer = ((DFBnB) algorithm).dfbnb_Algorithm(startingBoard, endBoard, f.printOpenList);
 			num = ((DFBnB) algorithm).numberOfNodesCreated;
 		}
 		else if(f.algorithmToUse.equals("DFID")){

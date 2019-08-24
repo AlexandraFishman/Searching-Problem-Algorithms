@@ -8,12 +8,12 @@ public class DFBnB{
 	
 	int numberOfNodesCreated = 0;
 	
-	public Node dfbnb_Algorithm(Node start,Node goals) {
+	public Node dfbnb_Algorithm(Node start,Node goals, Boolean printOpenListFlag) {
 		Node result = null;
 		if(start.equals(goals)){
 			return result;
 		}
-		Integer threshold = start.heuristicFunctionValue + start.movementCost;
+		Integer threshold = Integer.MAX_VALUE; //start.heuristicFunctionValue + start.movementCost;
 		Stack<Node> openListStack = new Stack<>();
 		openListStack.push(start);
 		Hashtable<String, Node> openList = new Hashtable<>();
@@ -30,6 +30,7 @@ public class DFBnB{
 			}
 			else{
 				n.isVisited = true;
+//				checkForSimilarBoardInAnotherNode(openList,n);
 				openListStack.push(n);
 				PriorityQueue<Node> priorityQueue = new PriorityQueue<Node>(new AStarComparator());
 				ArrayList<Node> generatedMovesOnStage = n.generateMovement();
@@ -38,7 +39,7 @@ public class DFBnB{
 				iterablePriorityQueue.addAll(priorityQueue);
 				for (Node g : iterablePriorityQueue) {
 					Node gPrime = openList.get(g.boardToString());
-					numberOfNodesCreated++;
+//					numberOfNodesCreated++;
 
 					Integer currentNodeStageValue = g.heuristicFunctionValue + g.movementCost;
 					if(currentNodeStageValue > threshold){
@@ -52,7 +53,7 @@ public class DFBnB{
 						priorityQueue.remove(g);
 					}
 					else if(gPrime != null && !gPrime.isVisited){
-						if(gPrime.heuristicFunctionValue + gPrime.movementCost > currentNodeStageValue){
+						if(gPrime.heuristicFunctionValue + gPrime.movementCost <= currentNodeStageValue){
 							priorityQueue.remove(g);
 						}
 						else{
@@ -66,21 +67,44 @@ public class DFBnB{
 						//remove g and all the nodes after it from N
 						List<Node> forRemoval = removeUnwantedElemnts(generatedMovesOnStage, g);
 						priorityQueue.removeAll(forRemoval);
+						numberOfNodesCreated++; //to update the goal node on counter
 						//removing all the nodes "at once"
 					}
+					numberOfNodesCreated += priorityQueue.size();
 					PriorityQueue<Node> reversePriorityQueue = new PriorityQueue<Node>(new IDAStarComparator());
 					reversePriorityQueue.addAll(priorityQueue);
 					openListStack.addAll(reversePriorityQueue);
 					for (Node r : reversePriorityQueue) {
-						openList.put(r.boardToString(), r);
+						if(!r.isVisited)
+							openList.put(r.boardToString(), r);
 					}
 				}
+			/////
+				if(printOpenListFlag){
+//					System.out.println("generatedMoves array list: \n");
+					for (int i = 0; i < generatedMovesOnStage.size(); i++) {
+						System.out.print(generatedMovesOnStage.get(i).toString());
+						System.out.print("heuristicFunctionValue = ");
+						System.out.println(generatedMovesOnStage.get(i).heuristicFunctionValue + "\n");
+					}
+				}					
+				////
 			}
 			 elapsedTime = System.nanoTime() - startTime;
 		}
 		return result;
 	}
 	
+	private void checkForSimilarBoardInAnotherNode(Hashtable<String, Node> openList, Node n) {
+		if(openList.containsKey(n.boardToString())){
+			openList.get(n.boardToString()).isVisited = true;
+		}
+	}
+
+	private boolean containsBoard(Hashtable<String, Node> openList, Node n) {
+		return openList.containsKey(n.boardToString());
+	}
+
 	private List<Node> removeUnwantedElemnts(ArrayList<Node> generatedMovesOnStage, Node g) {
 		List<Node> forRemoval = new ArrayList<Node>();
 		boolean afterG = false;

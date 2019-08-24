@@ -10,7 +10,7 @@ public abstract class frontieerSearch {
 	Hashtable<String, Node> openListHash = new Hashtable<>();
 	int numberOfNodesCreated = 0;
 
-	public Node searchAlgorithm(Node startingBoard,Node goalStage){
+	public Node searchAlgorithm(Node startingBoard,Node goalStage, Boolean printOpenListFlag){
 		String openListHashkey = startingBoard.boardToString();
 		openListHash.put(openListHashkey,startingBoard);
 		openListQueue.add(startingBoard);
@@ -24,13 +24,6 @@ public abstract class frontieerSearch {
 			previousStates.put(closedListHashkey, currentNode);
 			ArrayList<Node> generatedMovesOnStage = currentNode.generateMovement(); 
 			numberOfNodesCreated += generatedMovesOnStage.size();
-			/////
-			System.out.println("generatedMoves array list: \n");
-			for (int i = 0; i < generatedMovesOnStage.size(); i++) {
-				System.out.println(generatedMovesOnStage.get(i).toString());
-				System.out.println(generatedMovesOnStage.get(i).movementCost);
-			}
-			////
 			if(Arrays.deepEquals(currentNode.stage, goalStage.stage)){ //if  started with a wining board
 //				System.out.println("moves: "+currentNode.move);
 				return currentNode;
@@ -45,6 +38,16 @@ public abstract class frontieerSearch {
 					openListQueue.add(nextMove);
 				}
 			}
+			/////
+			if(printOpenListFlag){
+				//						System.out.println("generatedMoves array list: \n");
+				System.out.println("=====================================");
+				for (Node node : openListQueue) {
+					System.out.println(node.toString());
+				}
+				System.out.println("=====================================");
+			}
+			////
 		}
 		return null;
 	}

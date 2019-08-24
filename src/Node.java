@@ -10,6 +10,8 @@ public class Node {
 	int heuristicFunctionValue;
 	boolean  isVisited = false;
 	Directions direction;
+	Integer nodeSerialNumber = 0;
+	static Integer nodeCounter = 0;
 
 	public Node(Integer [][] board){
 		this.emptyCell = new Cell();
@@ -27,6 +29,7 @@ public class Node {
 		}
 		this.movementCost =0;
 		this.move ="";
+		this.nodeSerialNumber = nodeCounter++;
 	}
 
 	public ArrayList<Node> generateMovement(){
@@ -229,7 +232,7 @@ public class Node {
 					column = (this.stage[i][j]-1)%stage[0].length;
 					int distanceX = Math.abs(j-column);
 					int distanceY = Math.abs(i-row);
-					sum += distanceX + distanceY;
+					sum += (distanceX + distanceY) * colorOfTile(this.stage[i][j]); //need to mult by 1or30
 				}
 			}
 		}
@@ -237,6 +240,12 @@ public class Node {
 			return 0;
 		//		sum*=5;//cost single move
 		return sum;
+	}
+
+	private int colorOfTile(int value) {
+		if(Board.redTileNumber.contains(value))
+			return 30;
+		return 1;
 	}
 
 	@Override
