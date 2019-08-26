@@ -80,7 +80,6 @@ public class Node {
 		if(!currentMoves.isEmpty()){
 			possibleMoves.addAll(currentMoves);
 		}
-
 	}
 
 	//returns node by one left  movement
@@ -141,7 +140,7 @@ public class Node {
 		int i = this.emptyCell.i;
 		int j = this.emptyCell.j;
 
-		if(Board.blackTileNumber.contains(stage[i][j])){
+		if(Board.blackTileNumber.contains(stage[i+directionI][j+directionJ])){
 			return null;
 		}
 		if(this.stage[i+directionI][j+directionJ] != null){
@@ -233,13 +232,10 @@ public class Node {
 					column = (this.stage[i][j]-1)%stage[0].length;
 					int distanceX = Math.abs(j-column);
 					int distanceY = Math.abs(i-row);
-					sum += (distanceX + distanceY) * colorOfTile(this.stage[i][j]); //need to mult by 1or30
+					sum += (distanceX + distanceY) * colorOfTile(this.stage[i][j]); //need to multiply by 1 or 30 - according to tile color
 				}
 			}
 		}
-		if(sum == 0)
-			return 0;
-		//		sum*=5;//cost single move
 		return sum;
 	}
 

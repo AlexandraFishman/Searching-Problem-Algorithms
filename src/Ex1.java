@@ -50,10 +50,10 @@ public class Ex1 {
 				o = new OutputFile(answer.move, Integer.toString(num), Integer.toString(answer.movementCost), "");
 		}
 		else{
-			if(f.printTime.equals("with time"))
-				o = new OutputFile("no path", "", "", Double.toString(elapsedTime/1e9));
-			else
-				o = new OutputFile("no path", "", "", "");
+//			if(f.printTime.equals("with time"))
+//				o = new OutputFile("no path", "", "", Double.toString(elapsedTime/1e9));
+//			else
+				o = new OutputFile("no path", Integer.toString(num), "", "");
 		}
 		
 	}

@@ -66,6 +66,14 @@ public class IDAStar{
 			while (!openListStack.isEmpty()) {
 				Node n = openListStack.pop();
 //				numberOfNodesCreated++;
+				if(printOpenListFlag){
+//					System.out.println("generatedMoves array list: \n");
+					System.out.println("=====================================");
+					for (Node node : openListStack) {
+						System.out.print(node.toString());
+					}
+					System.out.println("=====================================");
+				}
 				if(n.isVisited){
 					openList.remove(n.boardToString());
 				}
@@ -75,14 +83,6 @@ public class IDAStar{
 					PriorityQueue<Node> priorityQueue = new PriorityQueue<Node>(new IDAStarComparator());
 					ArrayList<Node> generatedMovesOnStage = n.generateMovement();
 					numberOfNodesCreated += generatedMovesOnStage.size();	
-					if(printOpenListFlag){
-//						System.out.println("generatedMoves array list: \n");
-						for (int i = 0; i < generatedMovesOnStage.size(); i++) {
-							System.out.print(generatedMovesOnStage.get(i).toString());
-							System.out.print("heuristicFunctionValue = ");
-							System.out.println(generatedMovesOnStage.get(i).heuristicFunctionValue + "\n");
-						}
-					}
 					priorityQueue.addAll(generatedMovesOnStage);
 					for (Node g : priorityQueue) {
 						Integer currentNodeStageValue = g.heuristicFunctionValue + g.movementCost;

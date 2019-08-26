@@ -22,7 +22,7 @@ public class DFBnB{
 		long startTime = System.nanoTime();
 		long elapsedTime = 0;
 		
-		while(!openListStack.isEmpty() ){//&& elapsedTime/1e9 < 2){ //DFBnB is time limited - gave him 2 seconds  to search
+		while(!openListStack.isEmpty() && elapsedTime/1e9 < 2){ //DFBnB is time limited - gave him 2 seconds  to search
 			Node  n = openListStack.pop();
 
 			if(n.isVisited){

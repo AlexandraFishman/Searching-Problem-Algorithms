@@ -12,6 +12,11 @@ public class DFID{
 	public Node dfid(Node start, Node goal, Boolean printOpenListFlag)
 	{
 		this.openListFlag = printOpenListFlag;
+		if(this.openListFlag){
+			System.out.println("=====================================");
+			System.out.println(start.toString());
+			System.out.println("=====================================");
+		}
 		int depth = 0;
 		Node n = null;
 		while (!maxDepth)

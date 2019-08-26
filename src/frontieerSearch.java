@@ -17,6 +17,16 @@ public abstract class frontieerSearch {
 
 		previousStates = new Hashtable<>();
 		while(!openListQueue.isEmpty()){
+			/////
+			if(printOpenListFlag){
+				//						System.out.println("generatedMoves array list: \n");
+				System.out.println("=====================================");
+				for (Node node : openListQueue) {
+					System.out.println(node.toString());
+				}
+				System.out.println("=====================================");
+			}
+			////
 			Node currentNode = openListQueue.remove();
 //			numberOfNodesCreated++;
 			openListHash.remove(currentNode.boardToString());
@@ -38,16 +48,6 @@ public abstract class frontieerSearch {
 					openListQueue.add(nextMove);
 				}
 			}
-			/////
-			if(printOpenListFlag){
-				//						System.out.println("generatedMoves array list: \n");
-				System.out.println("=====================================");
-				for (Node node : openListQueue) {
-					System.out.println(node.toString());
-				}
-				System.out.println("=====================================");
-			}
-			////
 		}
 		return null;
 	}
